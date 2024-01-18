@@ -1,0 +1,14 @@
+.form-checkout{
+    padding: 0 180px;
+}
+#totalPayment{
+    display: flex;
+    align-items: center;
+}
+#totalPayment{
+    font-weight: 400;
+}
+#totalPayment p{
+    font-weight: 600;
+    margin-left: 10px;
+}

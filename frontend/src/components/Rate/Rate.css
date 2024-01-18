@@ -1,0 +1,38 @@
+.review-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .username {
+    font-weight: bold;
+    color: #777;
+  }
+  
+  .date {
+    color: #888;
+  }
+  
+  .rating {
+    margin-bottom: 5px;
+  }
+  
+  .stars {
+    color: gold;
+  }
+  
+  .rating-value {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  
+  .content {
+    color: #777;
+  }

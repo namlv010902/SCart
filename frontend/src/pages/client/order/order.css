@@ -1,0 +1,70 @@
+.detailInfo{
+    border: 2px solid #ccc;
+    padding: 30px;
+    border-radius: 5px;
+}
+  
+  .order-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .title-order{
+    color: #3b9048;
+    text-align: center;
+    font-weight: 400;
+    font-family: roboto condensed, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, Arial, sans-serif;
+  }
+  
+  .order-details h2{
+    margin-top: 20px;
+    color: #777;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  p {
+    margin-bottom: 10px;
+  }
+  
+  .order-items {
+    margin-top: 40px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  
+  .item-info {
+    flex-grow: 1;
+  }
+  
+  .item-info h3 {
+    margin: 0;
+  }
+  
+  .item-info p {
+    margin: 5px 0;
+  }
+  .btn-rating{
+    background-color: #3b9048;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}

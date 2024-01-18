@@ -1,0 +1,1 @@
+export const logoUrl = "https://res.cloudinary.com/dgqvtbr4n/image/upload/v1705181461/logo_rhncpw.png"

@@ -1,0 +1,61 @@
+.banner-product {
+    background-image: url(https://img.pikbest.com/backgrounds/20190331/green-pure-natural-organic-fruit-poster-banner-background_1827650.jpg!sw800);
+    min-height: max-content;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    text-align: center;
+    height: 370px;
+
+}
+
+.banner-product>h1 {
+    color: #fff;
+    margin: 0;
+    text-shadow: 3px -1px 8px rgb(29 27 27);
+    font-size: 47px;
+    font-weight: 400;
+    line-height: 370px;
+}
+
+.item-aside .noActive {
+    color: #000;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+
+    background-color: #fff;
+}
+
+.item-aside .active {
+    background-color: #3b9048;
+    color: #fff;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+
+}
+
+.noActive:hover {
+    color: #3b9048;
+}
+
+.sort-product{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sort-product>strong{
+    font-weight: 600;
+    color: #3b9048;
+}
+.article-productPage{
+    margin-top: -52px;
+}

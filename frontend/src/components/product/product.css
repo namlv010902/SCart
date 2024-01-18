@@ -1,0 +1,123 @@
+.colum>h2>a{
+text-decoration: none;
+color: #4eb92d;
+margin: 20px 0;
+font-size: 16px;
+font-weight: 500;
+overflow: hidden;
+display: -webkit-box;
+text-overflow: ellipsis;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2;
+word-wrap: break-word;
+line-height: 20px;
+height: 20px;
+
+}
+.colum>h2{
+    margin: 10px ;
+}
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    margin: 50px 0;
+
+}
+
+.products>.colum {
+    background-color: #f9f5f0;
+    text-align: center;
+    transition: ease-in-out 0.3s;
+    position: relative;
+}
+
+.img-product img {
+    width: 100%;
+}
+
+.colum {
+    padding: 40px 0;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+
+}
+
+.colum>h2 {
+    letter-spacing: 0;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.colum strong {
+    vertical-align: middle;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: #ed1b36;
+}
+.colum del{
+    color: #777;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.price strong {
+    margin-left: 10px;
+}
+
+.colum:hover {
+    box-shadow: 0 0 10px 5px #ccc;
+    cursor: pointer;
+    /* background-color: #fff; */
+    /* transform: scaleY(1.2) */
+}
+
+#sale{
+    background-color: #83b601;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+    border-radius: 0 5px 0 0;
+    font-weight: 600;
+}
+
+.hidden {
+    display: none;
+    margin-top: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+.colum:hover .hidden {
+    display: block;
+    animation: action 0.5s ease forwards;
+    transform-origin: bottom center;
+  }
+  
+  @keyframes action {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(-50%);
+    }
+  }
+.heart>span>svg {
+    color: red;
+}
+
+
+

@@ -1,0 +1,24 @@
+.show-search-item >a{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #777;
+    font-weight: 500;
+}
+.show-search-item:hover{
+    transition: ease-in-out 0.3s;
+    background-color: #eee;
+    border-radius: 5px;
+}
+.show-search-item strong{
+    color: #d9a1a3;
+}
+.show-search{
+    margin-top: 30px;
+}
+.search-item-img>img{
+    height: 80px;
+    width: 80px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
