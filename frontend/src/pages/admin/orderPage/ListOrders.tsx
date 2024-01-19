@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { IProduct } from '../../../common/products';
 import "./order.css"
 import { toast } from 'react-toastify';
-import { PENDING_ORDER } from '../../../constants/order';
+import { CANCELLED_ORDER, DONE_ORDER, PENDING_ORDER, PROCESS_ORDER } from '../../../constants/order';
 import { formatTime } from '../../../config/formatTime';
 import Loading from '../../../components/Loading';
 import { formatPrice } from '../../../config/formatPrice';
@@ -67,6 +67,11 @@ const ListOrders = () => {
       title: 'Trạng thái đơn hàng',
       dataIndex: 'status',
       key: 'status',
+      render: (_, record) => {
+        return (
+          <Space className={record.status == DONE_ORDER ? "done" : record.status == PROCESS_ORDER ? "processing" : record.status == CANCELLED_ORDER ? "cancelled" : record.status == PENDING_ORDER ? "pending" : ""}>{record.status}</Space>
+        )
+      }
     },
     {
       title: 'Trạng thái thanh toán',
@@ -165,12 +170,12 @@ const ListOrders = () => {
         <p>Đơn hàng ngày: {TIME}</p>
         <p>Tổng thanh toán: {total}</p>
         <p>Trạng thái đơn hàng: {dataOneOrder?.data?.status}</p>
-        <strong style={{color:"#3b9048",borderBottom:"1px solid #3b9048"}}>Thông tin nhận hàng</strong>
+        <strong style={{ color: "#3b9048", borderBottom: "1px solid #3b9048" }}>Thông tin nhận hàng</strong>
         <p>Khách hàng: {dataOneOrder?.data?.customerName}</p>
         <p>Số điện thoại: {dataOneOrder?.data?.phoneNumber}</p>
         <p>Email: {dataOneOrder?.data?.email}</p>
         <p>Địa chỉ nhận hàng: {dataOneOrder?.data?.address}</p>
-        <strong style={{color:"#3b9048",borderBottom:"1px solid #3b9048"}}>Sản phẩm</strong>
+        <strong style={{ color: "#3b9048", borderBottom: "1px solid #3b9048" }}>Sản phẩm</strong>
         <div className="productInOrder">
           {dataOneOrder?.data?.products?.map((item: IProduct) => {
             const price = formatPrice(item.price)

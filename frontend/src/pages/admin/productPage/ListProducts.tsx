@@ -1,5 +1,5 @@
 
-import { Button, Image, Space, Table, Tag, Spin, InputNumber, Select } from 'antd';
+import { Button, Image, Space, Table, Tag, Spin, InputNumber, Select, Switch } from 'antd';
 import type { TableProps } from 'antd';
 import { useCreateProductMutation, useGetAllProductQuery, useGetOneProductMutation, useGetProductByIdQuery, useRemoveProductMutation, useUpdateProductMutation } from '../../../service/product.service';
 import { formatPrice } from '../../../config/formatPrice';
@@ -13,6 +13,7 @@ import { useGetAllCategoryQuery } from '../../../service/category.service';
 import { ICategory } from '../../../common/category';
 import { useUploadMutation } from '../../../service/upload.service';
 import { IoMdAdd } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 
 const ListProducts = () => {
@@ -36,12 +37,12 @@ const ListProducts = () => {
   }, [idPrd]);
   useEffect(() => {
     if (successUpdate) {
-      alert("Đã update thành công")
+      toast.success("Đã update thành công")
       setIsModalOpenUpdate(false)
       return
     }
     if (created) {
-      alert("Đã thêm thành công")
+      toast.success("Đã thêm thành công")
       setIsModalOpen(false);
       return
     }
@@ -57,7 +58,7 @@ const ListProducts = () => {
       form.setFieldValue("desc", DataOneProduct?.data?.desc)
       form.setFieldValue("categoryId", DataOneProduct?.data?.categoryId?._id)
       form.setFieldValue("discount", DataOneProduct?.data?.discount)
-      form.setFieldValue("outStanding", DataOneProduct?.data?.outStanding)
+       form.setFieldValue("outStanding", DataOneProduct?.data?.outStanding)
       form.setFieldValue("image", DataOneProduct?.data?.image)
       setImgUrl(DataOneProduct?.data?.image)
     }
@@ -151,7 +152,7 @@ const ListProducts = () => {
   const data = DataProducts?.data?.docs
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    createProduct(values)
+     createProduct(values)
   };
 
 
@@ -183,16 +184,7 @@ const ListProducts = () => {
     value: option._id,
   }));
 
-  const optionUpdate = [
-    {
-      label: "Sản phẩm nổi bật",
-      value: true
-    },
-    {
-      label: "Sản phẩm bình thường",
-      value: false
-    }
-  ]
+
   // Filter `option.label` match the user type `input`
   const filterOption = (input: string, option?: { label: string; value: string }) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -303,10 +295,11 @@ const ListProducts = () => {
             name="outStanding"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Select>
+            {/* <Select>
               <option value="false">Sản phẩm bình thường</option>
               <option value="true">Sản phẩm nổi bật</option>
-            </Select>
+            </Select> */}
+            <Switch  ></Switch>
           </Form.Item>
           <Form.Item >
             <Button type="primary" htmlType="submit">
@@ -392,9 +385,7 @@ const ListProducts = () => {
             name="outStanding"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Select
-              options={optionUpdate}
-            />
+          <Switch ></Switch>
           </Form.Item>
           <Form.Item >
             <Button type="primary" htmlType="submit">

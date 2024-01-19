@@ -47,9 +47,8 @@ const Checkout = () => {
             if (!accessToken) {
                 localStorage.removeItem("cart")
             }
-
             navigate("/result");
-            location.reload()
+            // location.reload()
         }
     }, [error, isSuccess])
     useEffect(() => {
@@ -60,7 +59,6 @@ const Checkout = () => {
             form.setFieldValue("address", dataUser?.data.address)
             form.setFieldValue("email", dataUser?.data.email)
             form.setFieldValue("note", dataUser?.data.note)
-
         } else {
             setUser(null)
         }
@@ -201,7 +199,7 @@ const Checkout = () => {
                                 <Button type='primary' htmlType="submit">SUBMIT</Button>
                             </Form.Item>
                         </Form>
-                        {/* } */}
+                    
                     </div>
                 </div> : ""}
         </div>

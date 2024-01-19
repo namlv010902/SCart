@@ -23,7 +23,7 @@ const Login = () => {
       toast.error(error?.data?.message, { autoClose: 2000 });
     }
     if (isSuccess) {
-      if (data?.data?.role == "admin") {
+      if ( data?.data?.role == "admin") {
         navigate("/admin");
       } else {
         navigate("/");

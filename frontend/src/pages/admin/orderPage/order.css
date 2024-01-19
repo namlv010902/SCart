@@ -9,3 +9,18 @@
     align-items: center;
    margin-top: 15px;
 }
+.done, .pending, .cancelled ,.processing{
+    background-color: #55b32c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff
+}
+.pending{
+    background-color: #E69138;
+}
+.cancelled{
+    background-color: #f12;
+}
+.processing{
+    background-color: #45818E;
+}
