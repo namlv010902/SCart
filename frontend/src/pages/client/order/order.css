@@ -1,70 +1,78 @@
-.detailInfo{
-    border: 2px solid #ccc;
-    padding: 30px;
-    border-radius: 5px;
+.detailInfo {
+  box-shadow: 0 0 5px 5px #ccc;
+  padding: 30px;
+  border-radius: 5px;
 }
-  
-  .order-details {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .title-order{
-    color: #3b9048;
-    text-align: center;
-    font-weight: 400;
-    font-family: roboto condensed, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, Arial, sans-serif;
-  }
-  
-  .order-details h2{
-    margin-top: 20px;
-    color: #777;
-    font-size: 20px;
-    font-weight: 500;
-  }
-  
-  p {
-    margin-bottom: 10px;
-  }
-  
-  .order-items {
-    margin-top: 40px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .item img {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-  }
-  
-  .item-info {
-    flex-grow: 1;
-  }
-  
-  .item-info h3 {
-    margin: 0;
-  }
-  
-  .item-info p {
-    margin: 5px 0;
-  }
-  .btn-rating{
-    background-color: #3b9048;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+
+.order-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title-order {
+  color: #3b9048;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 30px;
+  font-family: roboto condensed, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, Arial, sans-serif;
+}
+
+.order-details h2 {
+  margin-top: 20px;
+  color: #f12;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.order-items {
+  box-shadow: 0 0 5px 5px #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.item img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.item-info {
+  flex-grow: 1;
+}
+
+.item-info h3 {
+  margin: 0;
+}
+
+.item-info p {
+  margin: 5px 0;
+}
+
+.btn-rating {
+  background-color: #3b9048;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }

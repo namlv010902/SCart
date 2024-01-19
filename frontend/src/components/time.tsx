@@ -8,25 +8,20 @@ const Countdown = () => {
         minutes: 0,
         seconds: 0
     });
-
-    useEffect(() => {
-
-        const targetDate = moment().add(690000000000, 'seconds');
-        const interval = setInterval(() => {
-            const now = moment();
-            const duration = moment.duration(targetDate.diff(now));
-
-            setRemainingTime({
-                days: duration.days(),
-                hours: duration.hours(),
-                minutes: duration.minutes(),
-                seconds: duration.seconds()
-            });
-        }, 1000);
-
-
-        return () => clearInterval(interval);
-    }, []);
+    // useEffect(() => {
+    //     const targetDate = moment().add(690000000000, 'seconds');
+    //     const interval = setInterval(() => {
+    //         const now = moment();
+    //         const duration = moment.duration(targetDate.diff(now));
+    //         setRemainingTime({
+    //             days: duration.days(),
+    //             hours: duration.hours(),
+    //             minutes: duration.minutes(),
+    //             seconds: duration.seconds()
+    //         });
+    //     },0);
+    //     return () => clearInterval(interval);
+    // }, []);
 
     return (
         <Row gutter={10} style={{marginTop:"15px"}}>

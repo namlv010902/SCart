@@ -1,15 +1,44 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useGetOrderForMemberQuery } from '../../../service/order.service'
+import { useFilterOrderForMemberMutation, useGetOrderForMemberQuery, useSearchInvoiceIdMutation } from '../../../service/order.service'
 import { IOder } from '../../../common/order'
 import { GrView } from "react-icons/gr";
 import { formatPrice } from '../../../config/formatPrice'
+import { STATUS_ORDER } from '../../../constants/order'
+import { Button, Input } from 'antd'
+import Loading from '../../../components/Loading'
 const OrdersMemberPage = () => {
-  const { data } = useGetOrderForMemberQuery()
-  console.log(data?.data);
-  const DATA = data?.data?.slice().reverse()
-  console.log(DATA);
+  const { data, isLoading } = useGetOrderForMemberQuery()
+  const [filter, { data: dataFilter, isSuccess, isLoading: loadingFilter }] = useFilterOrderForMemberMutation()
+  const [orders, setOrders] = useState<IOder[]>([])
+  const [searchInvoiceId,{data:dataSearch}] = useSearchInvoiceIdMutation()
+  const [searchValue, setSearchValue] = useState("")
+  const handleFilter = (status: string) => {
+    console.log(status);
+    
+    filter(status);
+  }
+  useEffect(() => {
+    console.log("running");
+    if (isSuccess) {
+      setOrders(dataFilter?.data)
+    } else {
+      setOrders(data?.data?.docs)
+    }
+    
+  }, [isSuccess, data])
+  useEffect(() => {
+    if(dataSearch){
+      setOrders(dataSearch?.data.docs)
+    }
+  }, [dataSearch])
+  // const DATA = orders.slice().reverse()
+
+  
+  const handleSearchI = () => {
+    searchInvoiceId(searchValue);
+  }
   return (
     <div>
 
@@ -18,47 +47,61 @@ const OrdersMemberPage = () => {
         <ArrowRightOutlined rev={undefined} />
         <Link to="#"> ORDER</Link>
       </div>
-      <div className="shopping-cart">
-        {data && data?.data?.length > 0 ?
-          <>
-            <table>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Date</th>
-                  <th>TotalPayMent</th>
-                  <th>StatusOrder</th>
-                  <th>StatusPayment</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {DATA?.map((item: IOder, index: number) => {
-                  const formatTime = new Date(item.createdAt).toDateString()
-                  const total = formatPrice(item.totalPayment)
-                  return (
-                    <tr key={item._id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {formatTime}
-                      </td>
-                      <td>{total}</td>
-                      <td>{item.status}</td>
-                      <td>{item.pay ? "Đã Thanh Toán" : "Chưa Thanh Toán"}</td>
-                      <td id='remove-product-in-cart'>
-                        <Link to={"/orders/" + item._id}><GrView /></Link>
-                      </td>
+      {isLoading ? <Loading /> :
+        <div className="shopping-cart">
+          {data?.data?.docs?.length > 0 ?
+            <>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {STATUS_ORDER.map((item: string) => (
+                  <Button onClick={() => handleFilter(item)} type='primary' style={{ marginRight: "15px", backgroundColor: "#3b9048" }}>{item}</Button>
+                ))}
+                <Input onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search..."></Input> <Button onClick={() => handleSearchI()} type='primary' danger>Search</Button>
+              </div>
+
+              {loadingFilter ? <Loading /> :
+                <table>
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>InvoiceId</th>
+                      <th>Date</th>
+                      <th>TotalPayMent</th>
+                      <th>StatusOrder</th>
+                      <th>StatusPayment</th>
+                      <th></th>
                     </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+                  </thead>
 
-          </>
-          : <h3>The orders empty!</h3>
-        }
+                  <tbody>
+                    {orders?.map((item: IOder, index: number) => {
+                      const formatTime = new Date(item.createdAt).toDateString()
+                      const total = formatPrice(item.totalPayment)
+                      return (
+                        <tr key={item._id}>
+                          <td>{index + 1}</td>
+                          <td>{item.invoiceId}</td>
+                          <td>
+                            {formatTime}
+                          </td>
+                          <td>{total}</td>
+                          <td>{item.status}</td>
+                          <td>{item.pay ? "Đã Thanh Toán" : "Chưa Thanh Toán"}</td>
+                          <td id='remove-product-in-cart'>
+                            <Link to={"/orders/" + item._id} style={{ color: "#3b9048" }}><GrView /></Link>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
 
-      </div>
+                </table>}
+
+            </>
+            : <h3>The orders empty!</h3>
+          }
+
+        </div>
+      }
 
     </div>
   )

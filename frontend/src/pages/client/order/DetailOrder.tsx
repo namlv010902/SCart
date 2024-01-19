@@ -91,36 +91,40 @@ const DetailOrder = () => {
         <div className="order-items">
           <h2>Sản phẩm</h2>
           <ul>
-            {data?.data?.products?.map((item: IProduct) => (
-              <li>
-                <div className="item">
-                <img src={item.image} alt="Product" />
-                  <div className="item-info">
-                    <h3> <Link style={{color:"#3b9048",textDecoration:"none"}} to={"/products/"+item._id} >{item.name}</Link> </h3>
-                    <p>Số lượng: {item.quantity} (Kg)</p>
-                    <p>Giá: {item.price}</p>
-                  </div>
-                  {(data?.data?.status == DONE_ORDER && !item?.isRate  ) && <button className="btn-rating" onClick={() => {
-                    showModal()
-                    setIdProduct(item._id)
-                  }}>Đánh giá</button>}
-                  <Modal footer="" title="Đánh giá sản phẩm" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                    <Rate defaultValue={1} onChange={(value) => { setRate(value) }
-                    } />
-                    <Input.TextArea allowClear onChange={(e) => setContent(e.target.value)} />
-                    <Button type="primary" onClick={() => onHandleRating()}>Submit</Button>
-                  </Modal>
+            {data?.data?.products?.map((item: IProduct) => {
+              const price = formatPrice(item.price)
+              return (
+                <li>
+                  <div className="item">
+                    <img src={item.image} alt="Product" />
+                    <div className="item-info">
+                      <h3> <Link style={{ color: "#3b9048", textDecoration: "none" }} to={"/products/" + item._id} >{item.name}</Link> </h3>
+                      <p>Số lượng: {item.quantity} (Kg)</p>
+                      <p>Giá: {price}</p>
+                    </div>
+                    {(data?.data?.status == DONE_ORDER && !item?.isRate) && <button className="btn-rating" onClick={() => {
+                      showModal()
+                      setIdProduct(item._id)
+                    }}>Đánh giá</button>}
+                    <Modal footer="" title="Đánh giá sản phẩm" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                      <Rate defaultValue={1} onChange={(value) => { setRate(value) }
+                      } />
+                      <Input.TextArea style={{margin:"20px 0"}} allowClear onChange={(e) => setContent(e.target.value)} />
+                      <Button type="primary" onClick={() => onHandleRating()}>Submit</Button>
+                    </Modal>
 
-                </div>
-              </li>
-            ))}
+                  </div>
+                </li>
+              )
+            })}
 
           </ul>
         </div>
+        <div className="cancelled">
+          {data?.data?.status == PENDING_ORDER && <Button type="primary" danger style={{ marginTop: "15px" }} onClick={() => handleCancelledOrder()}>Hủy đơn hàng</Button>}
+        </div>
       </div>
-      <div className="cancelled">
-        {data?.data?.status == PENDING_ORDER && <Button onClick={() => handleCancelledOrder()}>Hủy đơn hàng</Button>}
-      </div>
+
     </div>
   )
 }

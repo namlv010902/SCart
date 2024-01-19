@@ -57,10 +57,56 @@ export const createEvaluation = async (req, res) => {
 
 export const getEvaluationByIdProduct = async (req, res) => {
     try {
-        const productId  = req.params.id
-        const data = await Evaluation.find({productId})
+        const productId = req.params.id
+        const data = await Evaluation.find({ productId })
         return res.status(200).json({
-            message:"Get rating successfully",
+            message: "Get rating successfully",
+            status: 200,
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            message: error.message,
+        });
+    }
+}
+export const getAllEvaluation = async (req, res) => {
+    try {
+        const { 
+             _page = 1,
+            _order = "desc",
+            _limit = 999,
+            _sort = "createdAt",
+        } = req.query
+        const options = {
+            page: _page,
+            limit: _limit,
+            sort: {
+                [_sort]: _order == "desc" ? -1 : 1,
+            },
+            populate:"productId"
+        }
+        const data = await Evaluation.paginate({}, options)
+        return res.status(200).json({
+            message: "Get rating successfully",
+            status: 200,
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            message: error.message,
+        });
+    }
+}
+export const updateIsReview = async (req, res) => {
+    try {
+        const id = req.params.id
+        console.log(req.body.isReview );
+        const data = await Evaluation.findByIdAndUpdate(id,{ isReview:req.body.isReview },{new:true});
+        return res.status(200).json({
+            message: "Updated",
             status: 200,
             data
         })

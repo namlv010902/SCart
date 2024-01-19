@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { cancelledOrder, createOrder, detailOrder, getAllOrders, getOrdersForMember, updateOrder } from "../controller/order";
+import { cancelledOrder, createOrder, detailOrder, filterStatusOrderForMember, getAllOrders, getOrdersForMember, updateOrder } from "../controller/order";
 import User from "../models/user";
 import jwt from "jsonwebtoken"
 import authentication from "../middlewares/authentication";
@@ -42,5 +42,6 @@ router.post("/order", async (req, res, next) => {
   router.delete("/orders/:id",cancelledOrder)
   router.get("/orders/",getAllOrders)
   router.patch("/orders/:id",updateOrder)
+  router.get("/orders-member/:status",authentication,filterStatusOrderForMember)
 
 export default router

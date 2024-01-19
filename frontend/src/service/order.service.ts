@@ -9,7 +9,7 @@ const orderAPI = createApi({
     }),
     tagTypes: ['order'],
     endpoints: (builder) => ({
-        getAllOrders: builder.query<{data:{docs:IOder[]}},void>({
+        getAllOrders: builder.query<{ data: { docs: IOder[] } }, void>({
             query: () => ({
                 url: '/orders/',
                 method: 'GET',
@@ -24,12 +24,19 @@ const orderAPI = createApi({
             }),
             invalidatesTags: ['order']
         }),
-        getOrderForMember: builder.query<{ data: IOder[] }, void>({
+        getOrderForMember: builder.query<{ data:{docs: IOder[] }}, void>({
             query: () => ({
                 url: '/orderMember',
                 method: 'GET',
             }),
             providesTags: ['order']
+        }),
+        searchInvoiceId: builder.mutation<{ data:{docs: IOder[] }},void>({
+            query: (id) => ({
+                url: '/orderMember/?_invoiceId='+id,
+                method: 'GET',
+            }),
+            invalidatesTags: ['order']
         }),
         detailOrder: builder.query({
             query: (id: string) => ({
@@ -47,10 +54,18 @@ const orderAPI = createApi({
             invalidatesTags: ['order']
         }),
         updateOrder: builder.mutation({
-            query: (arg:{_id: string,data:IOder }) => ({
+            query: (arg: { _id: string, data: IOder }) => ({
                 url: '/orders/' + arg._id,
                 method: 'PATCH',
-                body:arg.data
+                body: arg.data
+            }),
+            invalidatesTags: ['order']
+        }),
+        filterOrderForMember: builder.mutation({
+            query: (status) => ({
+                url: '/orders-member/' + status,
+                method: 'GET',
+
             }),
             invalidatesTags: ['order']
         }),
@@ -63,6 +78,8 @@ export const {
     useDetailOrderQuery,
     useCancelledOrderMutation,
     useGetAllOrdersQuery,
-    useUpdateOrderMutation
+    useUpdateOrderMutation,
+    useFilterOrderForMemberMutation,
+    useSearchInvoiceIdMutation
 } = orderAPI;
 export default orderAPI;

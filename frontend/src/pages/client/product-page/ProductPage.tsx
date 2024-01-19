@@ -10,6 +10,7 @@ import { useGetAllProductQuery } from '../../../service/product.service'
 import { useGetAllCategoryQuery, useGetCategoryByIdMutation } from '../../../service/category.service'
 import { ICategory } from '../../../common/category'
 import LastViewProduct from '../../../components/lastViewProduct/LastViewProduct'
+import SpecialProduct from '../../../components/specialProduct/SpecialProduct'
 
 const ProductPage = () => {
     const { data: productOutStanding } = useGetProductOutStandingQuery()
@@ -65,7 +66,6 @@ const ProductPage = () => {
         filterPrice(value)
     }
     console.log(activeItemId);
-    const [current, setCurrent] = useState(1);
 
     const onChange: PaginationProps['onChange'] = (page) => {
         setCurrentPage(page);
@@ -124,20 +124,7 @@ const ProductPage = () => {
                         <div className="aside-title">
                             <h6>SPECIAL PRODUCTS <img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h6>
                         </div>
-                        <div className="product-minimal">
-                            {productOutStanding?.data?.docs?.map((item: IProduct) => (
-                                <div className="product-minimal-colum">
-                                    <div className="product-minimal-img">
-                                        <img src={item.image} alt="" />
-                                    </div>
-                                    <div className="product-minimal-body">
-                                        <Link to="#">{item.name}</Link>
-                                        <div className="product-minimal-price"><del>$80</del><strong>${item.price}</strong></div>
-                                    </div>
-                                </div>
-                            ))}
-
-                        </div>
+                  <SpecialProduct/>
                     </div>
                     <div className="item-aside">
                         <div className="aside-title">

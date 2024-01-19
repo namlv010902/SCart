@@ -154,6 +154,7 @@ const ListOrders = () => {
     { value: "Hoàn thành", label: "Hoàn thành" },
   ]
   const TIME = formatTime(dataOneOrder?.data)
+  const total = formatPrice(dataOneOrder?.data?.totalPayment)
   return (
     <div>
       <h3>ListOrders</h3>
@@ -162,22 +163,23 @@ const ListOrders = () => {
       <Modal footer="" title="Thông tin đơn hàng" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <p>Mã đơn hàng: {dataOneOrder?.data?.invoiceId}</p>
         <p>Đơn hàng ngày: {TIME}</p>
-        <p>Tổng thanh toán: {dataOneOrder?.data?.totalPayment}</p>
+        <p>Tổng thanh toán: {total}</p>
         <p>Trạng thái đơn hàng: {dataOneOrder?.data?.status}</p>
-        <h3>Thông tin nhận hàng</h3>
+        <strong style={{color:"#3b9048",borderBottom:"1px solid #3b9048"}}>Thông tin nhận hàng</strong>
         <p>Khách hàng: {dataOneOrder?.data?.customerName}</p>
         <p>Số điện thoại: {dataOneOrder?.data?.phoneNumber}</p>
         <p>Email: {dataOneOrder?.data?.email}</p>
         <p>Địa chỉ nhận hàng: {dataOneOrder?.data?.address}</p>
-        <strong>Sản phẩm</strong>
+        <strong style={{color:"#3b9048",borderBottom:"1px solid #3b9048"}}>Sản phẩm</strong>
         <div className="productInOrder">
           {dataOneOrder?.data?.products?.map((item: IProduct) => {
+            const price = formatPrice(item.price)
             return (
               <div className="itemProduct">
                 <img src={item.image} alt="" />
                 <div className="infoItem">
-                  <p>{item.name} ({item.quantity} /Kg)</p>
-                  <p>{item.price}</p>
+                  <p>{item.name} ({item.quantity}kg)</p>
+                  <p>{price}</p>
                 </div>
               </div>
             )

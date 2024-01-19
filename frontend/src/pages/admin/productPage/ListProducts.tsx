@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useGetAllCategoryQuery } from '../../../service/category.service';
 import { ICategory } from '../../../common/category';
 import { useUploadMutation } from '../../../service/upload.service';
+import { IoMdAdd } from 'react-icons/io';
 
 
 const ListProducts = () => {
@@ -219,12 +220,12 @@ const ListProducts = () => {
     <div>
       <h3>ListProducts</h3>
       {isLoading ? <Loading /> : <div>
-        <Button onClick={() => {
+        <Button type='primary' style={{backgroundColor:"#3b9048",margin:"20px 0"}} onClick={() => {
           showModal()
           form.setFieldValue("discount", 0)
         }
         }
-        >Tạo mới sản phẩm</Button>
+        > <IoMdAdd /> Tạo mới sản phẩm</Button>
         <Table columns={columns} dataSource={data} /></div>}
       <Modal title="Thêm mới sản phẩm" footer="" destroyOnClose open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form

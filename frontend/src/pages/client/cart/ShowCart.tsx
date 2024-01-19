@@ -13,6 +13,7 @@ import { useGetCartQuery, useRemoveProductInCartMutation, useUpdateCartMutation 
 import { formatPrice } from '../../../config/formatPrice';
 import { IProduct } from '../../../common/products';
 import { useGetOneProductMutation } from '../../../service/product.service';
+import Step from '../../../components/Steps';
 interface TypeProductInCart {
   _id: {
     _id: string;
@@ -158,21 +159,7 @@ const ShowCart = () => {
       <div className="shopping-cart">
         {data && data.length > 0 ?
           <>
-            <Steps
-              size="small"
-              current={0}
-              items={[
-                {
-                  title: 'Shopping cart',
-                },
-                {
-                  title: 'Checkout',
-                },
-                {
-                  title: 'Complete',
-                },
-              ]}
-            />
+            <Step number = {0} />
             <table>
               <thead>
                 <tr>

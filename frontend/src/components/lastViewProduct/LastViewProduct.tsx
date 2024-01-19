@@ -13,7 +13,7 @@ const LastViewProduct = () => {
     }, [])
     
     // console.log("current",data);
-    const dataFormat = data.reverse().slice(0,4);
+    const dataFormat = data.slice(0,4).reverse();
     // console.log("format",dataFormat);
     return (
         <>

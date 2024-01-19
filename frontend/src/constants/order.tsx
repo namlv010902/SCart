@@ -6,3 +6,10 @@ export const ORDERS = [
     "Đang giao hàng",
     "Hoàn thành",
 ]
+
+export const STATUS_ORDER =[
+    "Chờ xác nhận",
+    "Đang giao hàng",
+    "Hoàn thành",
+    "Đã hủy"
+]

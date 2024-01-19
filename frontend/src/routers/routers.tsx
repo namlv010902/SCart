@@ -16,6 +16,7 @@ import Dashboard from '../pages/admin/Dashboard';
 import ListProducts from '../pages/admin/productPage/ListProducts';
 import ListCategories from '../pages/admin/categoryPage/ListCategories';
 import ListOrders from '../pages/admin/orderPage/ListOrders';
+import ListEvaluation from '../pages/admin/evaluation/ListEvaluation';
 export const router = createBrowserRouter([
     {
       path: "/",
@@ -32,8 +33,11 @@ export const router = createBrowserRouter([
         { path: '/auth/login', element: <Login /> },
         { path: '/auth/register', element: <Register /> },
         { path: '/**', element: <NotFoundPage /> },
-        // { path: '*', element: <NotFoundPage /> },
+       
       ],
+    },{
+      path: "*",
+      element: <NotFoundPage />,
     },
     {
       path: "/admin",
@@ -43,6 +47,7 @@ export const router = createBrowserRouter([
         { path: '/admin/products', element: <ListProducts /> },
         { path: '/admin/categories', element: <ListCategories /> },
         { path: '/admin/orders', element: <ListOrders /> },
+        { path: '/admin/evaluation', element: <ListEvaluation /> },
       ],
     }
   ]);

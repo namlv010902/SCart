@@ -5,6 +5,7 @@ import "./search.css"
 import { NavLink } from 'react-router-dom'
 import { scrollToTop } from '../../config/scrollToTop'
 import { useSearchProductMutation } from '../../service/product.service'
+import { formatPrice } from '../../config/formatPrice'
 
 const Search = () => {
     const [open, setOpen] = useState(false);
@@ -58,6 +59,7 @@ const Search = () => {
                     {searchData?.length > 0 ? (
                         <>
                             {searchData?.map((item: any) => {
+                                const price = formatPrice(item.price)
                                 return (
                                     <div className='show-search-item'>
                                         <NavLink to={"products/" + item._id} onClick={() => {
@@ -69,7 +71,7 @@ const Search = () => {
                                             </div>
                                             <div className="search-item-body">
                                                 <p>{item.name}</p>
-                                                <strong>${item.price}</strong>
+                                                <strong>{price}</strong>
                                             </div>
                                         </NavLink>
                                     </div>

@@ -31,7 +31,7 @@ const Rating = (props: any) => {
 
                             </div>
                             <div className="content">
-                                {item?.content}
+                             {item.isReview ? <p> {item?.content}</p> : <p>Nội dung đã bị ẩn</p>}   
                             </div>
                         </div>
                     )

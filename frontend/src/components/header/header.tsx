@@ -1,4 +1,4 @@
-
+import { MdDashboard } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react';
 import { Badge } from 'antd';
@@ -46,10 +46,6 @@ const Header = () => {
 
     }, [error, data]);
 
-    // useEffect(() => {
-    //     console.log("running....");
-
-    // }, [cart])
     const handleLogout = () => {
         navigate("/")
         logOut()
@@ -68,7 +64,8 @@ const Header = () => {
         <div className="drop-down">
             <div className="drop-down-item">
                 {user != null ? <><NavLink to="#"><FaUserCheck /> {user?.userName}</NavLink> <br />
-                    <NavLink onClick={() => handleLogout()} to="#"><BiLogOutCircle /> Logout</NavLink></>
+             {user?.role == "admin" && <NavLink to ="/admin"><MdDashboard /> Quản trị</NavLink> }   
+                   <br /> <NavLink onClick={() => handleLogout()} to="#"><BiLogOutCircle /> Logout</NavLink></>
                     : <NavLink onClick={() => scrollToTop()} to="/auth/login"><FaUser /> Login</NavLink>}
             </div>
             <div className="drop-down-item">

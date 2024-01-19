@@ -10,6 +10,13 @@ const evaluationAPI = createApi({
     }),
     tagTypes: ['evaluation'],
     endpoints: (builder) => ({
+        getAllEvaluation: builder.query<{data:{docs:IEvaluation[]}},void>({
+            query: () => ({
+                url: '/evaluation/',
+                method: 'GET',
+            }),
+            providesTags: ['evaluation']
+        }),
         getEvaluationByIdProduct: builder.query<{data:IEvaluation},void>({
             query: (id) => ({
                 url: '/evaluationByIdProduct/'+id,
@@ -25,15 +32,23 @@ const evaluationAPI = createApi({
             }),
             invalidatesTags: ['evaluation']
         }),
+        updateReview: builder.mutation({
+            query: (arg:{id:string,isReview:boolean}) => ({
+                url: '/evaluation/'+arg.id,
+                method: 'PATCH',
+                body:{ isReview:arg.isReview}
+            }),
+            invalidatesTags: ['evaluation']
+        }),
     
-        
-
     })
 });
 
 export const {
    useCreateEvaluationMutation,
-   useGetEvaluationByIdProductQuery
+   useGetEvaluationByIdProductQuery,
+   useGetAllEvaluationQuery,
+   useUpdateReviewMutation
 
 } = evaluationAPI;
 export default evaluationAPI;

@@ -148,7 +148,8 @@ const ListCategories = () => {
   return (
     <div>
       {isLoading ? <Loading /> : <div>
-        <Button onClick={showModal}><IoMdAdd /> Thêm mới danh mục</Button>
+        <h3>List categories</h3>
+        <Button type='primary' style={{backgroundColor:"#3b9048",margin:"20px 0"}}  onClick={showModal}><IoMdAdd /> Tạo mới danh mục</Button>
         <Table dataSource={dataSource} columns={columns} />
       </div>}
       <Modal title="Thêm mới danh mục" footer="" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

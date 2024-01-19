@@ -11,11 +11,11 @@ import { IUser } from "../../../common/user";
 interface FieldType {
   email?: string;
   password?: string;
-  remember?: boolean; 
+  remember?: boolean;
 };
 
 const Login = () => {
-  const [login, { error, isSuccess }] = useLoginMutation(); 
+  const [login, { error, isSuccess, data }] = useLoginMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,12 +23,16 @@ const Login = () => {
       toast.error(error?.data?.message, { autoClose: 2000 });
     }
     if (isSuccess) {
-      navigate("/");
+      if (data?.data?.role == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
       scrollToTop();
     }
   }, [error, isSuccess]);
 
-  const onFinish =  (values: FieldType) => { 
+  const onFinish = (values: FieldType) => {
     console.log('Success:', values);
     login(values);
   };

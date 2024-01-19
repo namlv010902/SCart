@@ -36,10 +36,10 @@ const Product = (props: any) => {
             <div className="price">
                 <del>{props?.product?.discount > 0 && <>{props?.product?.price?.toLocaleString("vi-VN",{ style: "currency", currency: "VND" })}</> }</del><strong> {(props?.product?.price - props?.product?.price * props?.product?.discount/100).toLocaleString("vi-VN",{ style: "currency", currency: "VND" })}</strong>
             </div>
-            <div className="hidden">
+            {/* <div className="hidden">
                 <HeartOutlined className='heart' style={{ color: "#f12", border: "1px solid #f12", borderRadius: "50px", padding: "10px", marginRight: "10px" }} rev={undefined} />
                 <SwapOutlined style={{ color: "#f12", border: "1px solid #f12", borderRadius: "50px", padding: "10px" }} rev={undefined} />
-            </div>
+            </div> */}
             {props?.product?.discount > 0 && <p id='sale'>-{props?.product?.discount}%</p>}
         </div>
     )

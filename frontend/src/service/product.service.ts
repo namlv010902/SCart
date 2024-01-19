@@ -120,6 +120,7 @@ export const {
    useCreateProductMutation,
    useRemoveProductMutation,
    useGetOneProductMutation,
-   useUpdateProductMutation
+   useUpdateProductMutation,
+   
 } = productAPI;
 export default productAPI;

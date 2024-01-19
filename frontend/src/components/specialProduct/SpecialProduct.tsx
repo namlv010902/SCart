@@ -16,7 +16,7 @@ const SpecialProduct = () => {
           </div>
           <div className="product-minimal-body">
             <Link onClick={()=>scrollToTop()} to={"/products/"+item._id}>{item.name}</Link>
-            <div className="product-minimal-price"><del>$80</del><strong>{item.price.toLocaleString("vi-VN",{
+            <div className="product-minimal-price"><del></del><strong>{item.price.toLocaleString("vi-VN",{
               style:"currency",currency:"VND"
               })}</strong></div>
           </div>

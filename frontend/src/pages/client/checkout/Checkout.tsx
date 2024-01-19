@@ -10,6 +10,7 @@ import { useGetTokenQuery } from '../../../service/auth.service';
 import { IUser } from '../../../common/user';
 import { IProduct } from '../../../common/products';
 import { formatPrice } from '../../../config/formatPrice';
+import Step from '../../../components/Steps';
 const Checkout = () => {
     const [data, setData] = useState([]);
     const { data: cartDb, } = useGetCartQuery();
@@ -46,7 +47,7 @@ const Checkout = () => {
             if (!accessToken) {
                 localStorage.removeItem("cart")
             }
-            
+
             navigate("/result");
             location.reload()
         }
@@ -75,13 +76,13 @@ const Checkout = () => {
         values.totalPayment = totalPayment
         console.log('Success:', values);
         Swal.fire({
-            title: "Are you sure?",
+            title: "Xác nhận đặt hàng?",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "OKI"
         }).then((result: any) => {
             if (result.isConfirmed) {
                 createOrder(values)
@@ -101,124 +102,108 @@ const Checkout = () => {
                 <ArrowRightOutlined rev={undefined} />
                 CHECKOUT
             </div>
-            { data && data.length > 0 ? 
-            <div>
-                <div className="shopping-cart">
+            {data && data.length > 0 ?
+                <div>
+                    <div className="shopping-cart">
+                        <Step number={1} />
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
 
-                    <Steps
-                        size="small"
-                        current={1}
-                        items={[
-                            {
-                                title: 'Shopping cart',
-                            },
-                            {
-                                title: 'Checkout',
-                            },
-                            {
-                                title: 'Complete',
-                            },
-                        ]}
-                    />
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data?.map((item: IProduct, index: number) => {
+                                    const price = formatPrice(item.price)
+                                    const subTotalPrice = formatPrice(item.price * item.quantity)
+                                    return (
+                                        <tr key={item._id}>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                                <div className='img-in-cart'>
+                                                    <img src={item.image} alt="" />
+                                                    {item.name}
+                                                </div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
+                                            </td>
+                                            <td>{price}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>
+                                                {subTotalPrice}
+                                            </td>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.map((item: IProduct, index: number) => {
-                                const price = formatPrice(item.price)
-                                const subTotalPrice = formatPrice(item.price * item.quantity)
-                                return (
-                                    <tr key={item._id}>
-                                        <td>{index + 1}</td>
-                                        <td>
-                                            <div className='img-in-cart'>
-                                                <img src={item.image} alt="" />
-                                                {item.name}
-                                            </div>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                        <h3 id='totalPayment'>TotalPayment :<p style={{ color: '#ed1b36' }}>{totalPayment?.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</p> </h3>
+                    </div>
+                    <div className="form-checkout" >
+                        {/* {user && */}
+                        <Form
+                            form={form}
+                            layout="vertical"
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off" >
+                            <Form.Item
+                                name="customerName"
+                                label="Customer Name"
+                                rules={[{ required: true, message: "Please input your name!" }, { type: 'string' }]}
+                                hasFeedback
 
-                                        </td>
-                                        <td>{price}</td>
-                                        <td>{item.quantity}</td>
-                                        <td>
-                                            {subTotalPrice}
-                                        </td>
-
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                    <h3 id='totalPayment'>TotalPayment :<p style={{ color: '#ed1b36' }}>{totalPayment?.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</p> </h3>
-                </div>
-                <div className="form-checkout" >
-                    {/* {user && */}
-                    <Form
-                        form={form}
-                        layout="vertical"
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off" >
-                        <Form.Item
-                            name="customerName"
-                            label="Customer Name"
-                            rules={[{ required: true, message: "Please input your name!" }, { type: 'string' }]}
-                            hasFeedback
-                           
-                        >
-                            <Input placeholder="Your Name" />
-                        </Form.Item>
-                        <Form.Item
-                            name="phoneNumber"
-                            label="Phone Number"
-                            rules={[{
-                                required: true,
-                                message: "Please input your phone number!"
-                            }, {
-                                pattern: new RegExp(/^0[0-9]{9}/),
-                                message: "A value must be entered",
-                            }]}
-                            hasFeedback
-                            initialValue={user?.phoneNumber} >
-                            <Input placeholder="Your phone number" maxLength={10} />
-                        </Form.Item>
-                        <Form.Item
-                            name="email"
-                            label="Email"
-                            rules={[{ required: true, message: "Please input your email!" }, { type: 'email', message: "Email invalid!" }]}
-                            hasFeedback
-                            initialValue={user?.email}>
-                            <Input placeholder="Your email" />
-                        </Form.Item>
-                        <Form.Item
-                            name="address"
-                            label="Address shipping"
-                            rules={[{ required: true, message: "Please input your address shipping!" }]}
-                            hasFeedback
-                            initialValue={user?.address}>
-                            <Input placeholder="EX: so 10, Ngo 86, Pho Kieu Mai" />
-                        </Form.Item>
-                        <Form.Item label="Note" name="note" >
-                            <Input.TextArea allowClear />
-                        </Form.Item>
-                        <Form.Item label="Payment method">
-                            <Radio checked>Payment on delivery</Radio>
-                        </Form.Item>
-                        <Form.Item>
-                            <Button htmlType="submit">SUBMIT</Button>
-                        </Form.Item>
-                    </Form>
-                    {/* } */}
-                </div>
-            </div> : <h3>The shopping cart empty!</h3> }
+                            >
+                                <Input placeholder="Your Name" />
+                            </Form.Item>
+                            <Form.Item
+                                name="phoneNumber"
+                                label="Phone Number"
+                                rules={[{
+                                    required: true,
+                                    message: "Please input your phone number!"
+                                }, {
+                                    pattern: new RegExp(/^0[0-9]{9}/),
+                                    message: "A value must be entered",
+                                }]}
+                                hasFeedback
+                                initialValue={user?.phoneNumber} >
+                                <Input placeholder="Your phone number" maxLength={10} />
+                            </Form.Item>
+                            <Form.Item
+                                name="email"
+                                label="Email"
+                                rules={[{ required: true, message: "Please input your email!" }, { type: 'email', message: "Email invalid!" }]}
+                                hasFeedback
+                                initialValue={user?.email}>
+                                <Input placeholder="Your email" />
+                            </Form.Item>
+                            <Form.Item
+                                name="address"
+                                label="Address shipping"
+                                rules={[{ required: true, message: "Please input your address shipping!" }]}
+                                hasFeedback
+                                initialValue={user?.address}>
+                                <Input placeholder="EX: so 10, Ngo 86, Pho Kieu Mai" />
+                            </Form.Item>
+                            <Form.Item label="Note" name="note" >
+                                <Input.TextArea allowClear />
+                            </Form.Item>
+                            <Form.Item label="Phương thức nhận hàng">
+                                <Radio checked>Thanh toán khi nhận hàng</Radio>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type='primary' htmlType="submit">SUBMIT</Button>
+                            </Form.Item>
+                        </Form>
+                        {/* } */}
+                    </div>
+                </div> : ""}
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongoosePaginate from "mongoose-paginate-v2";
 const evaluationSchema = new mongoose.Schema(
     {
         customerName: {
@@ -18,10 +18,14 @@ const evaluationSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Products',
             required: true,
+        },
+        isReview: {
+            type: Boolean,
+            default: true
         }
 
     },
     { timestamps: true, versionKey: false }
 );
-
+evaluationSchema.plugin(mongoosePaginate)
 export default mongoose.model("Evaluation", evaluationSchema);

@@ -10,6 +10,7 @@ import { IProduct } from '../../../common/products'
 import { useGetNewProductQuery, useGetProductSaleQuery } from '../../../service/product.service'
 import { Link } from 'react-router-dom'
 import { scrollToTop } from '../../../config/scrollToTop'
+import { formatPrice } from '../../../config/formatPrice'
 
 const HomePage = () => {
 
@@ -26,8 +27,11 @@ const HomePage = () => {
       <div style={{ padding: "30px 180px" }}>
         <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>FLASH SALE</p><img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h1>
         <div className="flash_sale">
-          {dataSale?.data?.docs?.map((item: IProduct) => (
-            <div className="flash_item">
+          {dataSale?.data?.docs?.map((item: IProduct) =>{
+          const priceCurrent = formatPrice(item.price)
+          const priceSale =formatPrice(item.price - item.price * item.discount/100)
+            return (
+              <div className="flash_item">
               <div className="flash_image">
                 <Link onClick={()=>scrollToTop()} to ={"/products/"+item._id}> <img src={item?.image} alt="" />
                 </Link>
@@ -37,7 +41,7 @@ const HomePage = () => {
               <Link onClick={()=>scrollToTop()} to ={"/products/"+item._id}>   <h2>{item?.name}</h2>
                 </Link>
              
-                <del>{item.price }</del><strong> {item.price - item.price * item.discount/100}</strong>
+                <del>{priceCurrent}</del><strong> {priceSale}</strong>
                 <p style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div className="stock_sold">
                     <p>Already Sold: {item?.quantity}</p>
@@ -52,7 +56,8 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )
+          })}
 
 
 
