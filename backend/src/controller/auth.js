@@ -81,3 +81,31 @@ export const logOut = (req, res) => {
         })
     }
 }
+export const redirect = (req, res) => {
+    if (req.user?.data) {
+        res.cookie('accessToken', req.user?.accessToken, {
+            expires: new Date(Date.now() + 60 * 1000),
+            httpOnly: true,
+        });
+        res.redirect(process.env.GOOGLE_REDIRECT_URL);
+    } else {
+        res.redirect(process.env.GOOGLE_REDIRECT_URL + '?err=');
+    }
+};
+export const validateUser = async (detail) => {
+    const user = await User.findOne({ email: detail.email });
+    //Nếu đã có tài khoản
+    if (user) return user;
+
+    // Tạo mật khẩu ngẫu nhiên cho người dùng
+    const randomPassword = Math.random().toString(36).slice(-8);
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+    const newUser = await User.create({
+        email: detail.email,
+        userName: detail.userName,
+        //    avatar: detail.picture,
+        password: hashedPassword,
+    });
+    return newUser;
+};

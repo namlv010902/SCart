@@ -7,7 +7,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { useLoginMutation } from "../../../service/auth.service";
 import { scrollToTop } from "../../../config/scrollToTop";
 import { IUser } from "../../../common/user";
-
+import { FcGoogle } from "react-icons/fc";
 interface FieldType {
   email?: string;
   password?: string;
@@ -88,7 +88,9 @@ const Login = () => {
         >
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
+        <Form.Item>
+          <NavLink to="http://localhost:8080/api/auth/google/login"><FcGoogle/> Google</NavLink>
+        </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit

@@ -9,7 +9,7 @@ export const authorization = async (req, res, next) => {
         if(!token) {
             return res.status(402).json({
                status: 402,
-               message: 'Refresh Token is expired ! Login again please !', //rf token hết hạn
+               message: 'Login again please !',
             });
          }
         const { _id } = jwt.verify(token, process.env.SERECT_ACCESSTOKEN_KEY)
