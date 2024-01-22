@@ -9,13 +9,14 @@ import routerCart from "./routers/cart"
 import routerOrder from "./routers/order"
 import routerUser from "./routers/user"
 import routerUpload from "./routers/upload"
+import routerSendMailer from "./routers/sendMailer"
 import routerEvaluation from "./routers/evalution"
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser"
 import cron from "node-cron"
 dotenv.config();
 import cors from "cors"
-import order from "./models/order";
+import Order from "./models/order";
 import { DONE_ORDER, SUCCESS_ORDER } from "./config/constants";
 
 const app = express()
@@ -38,6 +39,7 @@ app.use("/api", routerOrder)
 app.use("/api", routerUser)
 app.use("/api", routerUpload)
 app.use("/api", routerEvaluation)
+app.use("/api", routerSendMailer)
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -45,7 +47,7 @@ app.use((req, res, next) => {
   next();
 });
 cron.schedule('*/30 * * * *', async () => {
-  const orders = await orders.find({ status: SUCCESS_ORDER });
+  const orders = await Order.find({ status: SUCCESS_ORDER });
   for (const order of orders) {
     const targetDate = new Date(order.updatedAt);
     // Lấy ngày hiện tại

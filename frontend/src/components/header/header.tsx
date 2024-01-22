@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
     let cart = JSON.parse(localStorage.getItem("cart")!)
     const { data, error } = useGetTokenQuery()
-    const [logOut] = useLogOutMutation()
+    const [logOut, {isSuccess: logOutSuccess}] = useLogOutMutation()
     const { data: cartDB, isSuccess } = useGetCartQuery()
     const navigate = useNavigate()
     const [cartData, setCartData] = useState([])
@@ -45,11 +45,10 @@ const Header = () => {
         }
 
     }, [error, data]);
-
-    const handleLogout = () => {
-        navigate("/")
-        logOut()
-    }
+    useEffect(() => {
+        if (logOutSuccess) navigate("/")
+    }, [logOutSuccess])
+  
     const menu = [
         { name: "HOME", link: "/" },
         { name: "CMS CONTENT", link: "/#" },
@@ -64,8 +63,8 @@ const Header = () => {
         <div className="drop-down">
             <div className="drop-down-item">
                 {user != null ? <><NavLink to="#"><FaUserCheck /> {user?.userName}</NavLink> <br />
-             {user?.role == "admin" && <NavLink to ="/admin"><MdDashboard /> Quản trị</NavLink> }   
-                   <br /> <NavLink onClick={() => handleLogout()} to="#"><BiLogOutCircle /> Logout</NavLink></>
+                    {user?.role == "admin" && <NavLink to="/admin"><MdDashboard /> Quản trị</NavLink>}
+                    <br /> <NavLink onClick={() => logOut()} to="#"><BiLogOutCircle /> Logout</NavLink></>
                     : <NavLink onClick={() => scrollToTop()} to="/auth/login"><FaUser /> Login</NavLink>}
             </div>
             <div className="drop-down-item">

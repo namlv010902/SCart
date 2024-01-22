@@ -14,6 +14,7 @@ import { formatPrice } from '../../../config/formatPrice';
 import { IProduct } from '../../../common/products';
 import { useGetOneProductMutation } from '../../../service/product.service';
 import Step from '../../../components/Steps';
+import Loading from '../../../components/Loading';
 interface TypeProductInCart {
   _id: {
     _id: string;
@@ -26,7 +27,7 @@ interface TypeProductInCart {
 const ShowCart = () => {
   let cart = JSON.parse(localStorage.getItem("cart")!);
   const [data, setData] = useState([]);
-  const { data: cartDb, isSuccess } = useGetCartQuery();
+  const { data: cartDb, isSuccess, isLoading } = useGetCartQuery();
   const [updateCart, { error }] = useUpdateCartMutation();
   const [deleteProductInCart] = useRemoveProductInCartMutation()
   const [getProduct, { data: dataOneProduct }] = useGetOneProductMutation()
@@ -53,8 +54,8 @@ const ShowCart = () => {
 
   }, [cartDb, isSuccess, error]);
 
-  const updateQuantity =  (id: string, quantity: any) => {
-     getProduct(id)
+  const updateQuantity = (id: string, quantity: any) => {
+    getProduct(id)
     const updatedData = data.map((item: any) => {
       if (item._id === id) {
         if (quantity === "increase") {
@@ -154,69 +155,71 @@ const ShowCart = () => {
         <ArrowRightOutlined rev={undefined} />
         SHOPPING CART
       </div>
-      <div className="shopping-cart">
-        {data && data.length > 0 ?
-          <>
-            <Step number = {0} />
-            <table>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Subtotal</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((item: any, index: number) => {
-                  const price = formatPrice(item.price)
-                  const subTotalPrice = formatPrice(item.price * item.quantity)
-                  return (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <div className='img-in-cart'>
-                          <img src={item.image} alt="" />
-                          {item.name}
-                        </div>
+      {isLoading ? <Loading /> :  <div className="shopping-cart">
+          {data && data.length > 0 ?
+            <>
+              <Step number={0} />
+              <table>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.map((item: any, index: number) => {
+                    const price = formatPrice(item.price)
+                    const subTotalPrice = formatPrice(item.price * item.quantity)
+                    return (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          <div className='img-in-cart'>
+                            <img src={item.image} alt="" />
+                            {item.name}
+                          </div>
 
-                      </td>
-                      <td>{price}</td>
-                      <td id='quantity'>
-                        <span>
-                          <HiOutlineMinus
-                            onClick={() => updateQuantity(item._id, "decrease")}
+                        </td>
+                        <td>{price}</td>
+                        <td id='quantity'>
+                          <span>
+                            <HiOutlineMinus
+                              onClick={() => updateQuantity(item._id, "decrease")}
+                            />
+                          </span>
+                          <input
+                            id='update-quantity'
+                            defaultValue={item.quantity}
+                            value={item.quantity}
+                            onChange={(e: any) => updateQuantity(item._id, parseInt(e.target.value))}
                           />
-                        </span>
-                        <input
-                          id='update-quantity'
-                          defaultValue={item.quantity}
-                          value={item.quantity}
-                          onChange={(e: any) => updateQuantity(item._id, parseInt(e.target.value))}
-                        />
-                        <span>
-                          <HiOutlinePlusSm
-                            onClick={() => updateQuantity(item._id, "increase")}
-                          />
-                        </span>
-                      </td>
-                      <td>{subTotalPrice}</td>
-                      <td id='remove-product-in-cart'><HiOutlineX onClick={() => removeProduct(item._id)} /></td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            <div className="checkout">
-              <NavLink onClick={() => scrollToTop()} to="/checkout"><button >Checkout</button></NavLink>
-            </div>
-          </>
-          : <h3>The shopping empty!</h3>
-        }
+                          <span>
+                            <HiOutlinePlusSm
+                              onClick={() => updateQuantity(item._id, "increase")}
+                            />
+                          </span>
+                        </td>
+                        <td>{subTotalPrice}</td>
+                        <td id='remove-product-in-cart'><HiOutlineX onClick={() => removeProduct(item._id)} /></td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+              <div className="checkout">
+                <NavLink onClick={() => scrollToTop()} to="/checkout"><button >Checkout</button></NavLink>
+              </div>
+            </>
+            : <h3>The shopping empty!</h3>
+          }
 
-      </div>
+        </div>
+      
+      }
 
     </div>
   );

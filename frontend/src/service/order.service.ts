@@ -78,6 +78,14 @@ const orderAPI = createApi({
             }),
             invalidatesTags: ['order']
         }),
+        findOneOrder: builder.mutation({
+            query: (id) => ({
+                url: '/order/' + id,
+                method: 'GET',
+
+            }),
+            invalidatesTags: ['order']
+        }),
     })
 });
 
@@ -90,6 +98,7 @@ export const {
     useUpdateOrderMutation,
     useFilterOrderForMemberMutation,
     useSearchInvoiceIdMutation,
-    useConfirmOrderMutation
+    useConfirmOrderMutation,
+    useFindOneOrderMutation
 } = orderAPI;
 export default orderAPI;

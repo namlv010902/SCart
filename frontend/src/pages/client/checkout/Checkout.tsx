@@ -11,9 +11,10 @@ import { IUser } from '../../../common/user';
 import { IProduct } from '../../../common/products';
 import { formatPrice } from '../../../config/formatPrice';
 import Step from '../../../components/Steps';
+import Loading from '../../../components/Loading';
 const Checkout = () => {
     const [data, setData] = useState([]);
-    const { data: cartDb,isSuccess:getCartDb } = useGetCartQuery();
+    const { data: cartDb,isSuccess:getCartDb ,isLoading} = useGetCartQuery();
     const { data: dataUser, error: errorToken } = useGetTokenQuery<IUser>()
     const [createOrder, { error, isSuccess }] = useCreateOrderMutation()
     const [user, setUser] = useState<IUser | null>(null)
@@ -100,7 +101,8 @@ const Checkout = () => {
                 <ArrowRightOutlined rev={undefined} />
                 CHECKOUT
             </div>
-            {data && data.length > 0 ?
+           {isLoading ? <Loading/> : <>
+           {data && data?.length > 0 ?
                 <div>
                     <div className="shopping-cart">
                         <Step number={1} />
@@ -202,6 +204,9 @@ const Checkout = () => {
                     
                     </div>
                 </div> : <h3>This shopping cart empty</h3> }
+           </>}
+
+            
         </div>
     )
 }

@@ -85,7 +85,7 @@ const LayOutAD = () => {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
         </Sider>
         <Layout className="site-layout">
-          <Header style={{ padding: "0 20px", background: colorBgContainer }} >
+          <Header style={{ padding: "0 20px", background: colorBgContainer,boxShadow:"0 0 5px 5px #ccc" }} >
            <p>Hi,  <MdAdminPanelSettings></MdAdminPanelSettings>{data?.data?.userName}</p>
           </Header>
 

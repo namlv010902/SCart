@@ -87,7 +87,7 @@ const Login = () => {
         <Form.Item
          style={{display:"flex",justifyContent: "center",}}
         >
-           <NavLink className="google" to={baseURL}><FcGoogle /> Google</NavLink>
+           <NavLink className="google" to={baseURL}><FcGoogle />Login with Google</NavLink>
         </Form.Item>
       
         <Form.Item  style={{display:"flex",justifyContent: "center",}} >
