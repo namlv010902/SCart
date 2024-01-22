@@ -73,6 +73,11 @@ const ProductPage = () => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const currentProducts = products?.slice(startIndex, endIndex);
+    const options = [
+        { label: 'Giảm dần', value: 'desc' },
+        { label: 'Tăng dần', value: 'asc' },
+       
+    ]
     return (
         <div>
             <div className="banner-product" >
@@ -124,7 +129,7 @@ const ProductPage = () => {
                         <div className="aside-title">
                             <h6>SPECIAL PRODUCTS <img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h6>
                         </div>
-                  <SpecialProduct/>
+                        <SpecialProduct />
                     </div>
                     <div className="item-aside">
                         <div className="aside-title">
@@ -137,20 +142,10 @@ const ProductPage = () => {
                     <div className="sort-product">
                         <strong >Result: {products?.length} products</strong>
                         <Select
-
-                            defaultValue="Sort by price "
+                            defaultValue="Sắp xếp theo giá"
                             style={{ width: 200 }}
                             onChange={handleSort}
-                            options={[
-                                {
-                                    // label: 'Sort by price',
-                                    options: [
-                                        { label: 'Desc', value: 'desc' },
-                                        { label: 'Asc', value: 'asc' },
-                                    ],
-                                },
-
-                            ]}
+                            options={options}
                         />
 
 
@@ -161,7 +156,7 @@ const ProductPage = () => {
                             <Product product={item}></Product>
                         ))}
                     </div>
-                    <div className="pagination" style={{textAlign:"center"}}>
+                    <div className="pagination" style={{ textAlign: "center" }}>
                         <Pagination current={currentPage} onChange={onChange} total={products?.length} pageSize={pageSize} />
                     </div>
                 </article>

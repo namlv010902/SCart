@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IOder } from '../common/order';
+import { baseUrl } from './fetchBaseQuery.service';
 
 const orderAPI = createApi({
     reducerPath: 'order',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api',
+        baseUrl: baseUrl,
         credentials: "include"
     }),
     tagTypes: ['order'],
@@ -69,6 +70,14 @@ const orderAPI = createApi({
             }),
             invalidatesTags: ['order']
         }),
+        confirmOrder: builder.mutation({
+            query: (id) => ({
+                url: '/orders-confirm/' + id,
+                method: 'GET',
+
+            }),
+            invalidatesTags: ['order']
+        }),
     })
 });
 
@@ -80,6 +89,7 @@ export const {
     useGetAllOrdersQuery,
     useUpdateOrderMutation,
     useFilterOrderForMemberMutation,
-    useSearchInvoiceIdMutation
+    useSearchInvoiceIdMutation,
+    useConfirmOrderMutation
 } = orderAPI;
 export default orderAPI;

@@ -125,7 +125,7 @@ const ListCategories = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => handleRemove(record._id)}><RiDeleteBin5Fill /></Button>
+         {record.type != "default" && <Button onClick={() => handleRemove(record._id)}><RiDeleteBin5Fill /></Button>} 
           <Button onClick={() => {
             showModalUpdate()
             setIdCategory(record._id)

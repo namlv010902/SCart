@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../../service/auth.service";
 import { scrollToTop } from "../../../config/scrollToTop";
 import { IUser } from "../../../common/user";
 import { FcGoogle } from "react-icons/fc";
+import { baseURL } from "../../../config/baseURL";
 interface FieldType {
   email?: string;
   password?: string;
@@ -44,12 +45,14 @@ const Login = () => {
   return (
     <div style={{ padding: "30px 180px" }}>
       <div className="login"> <h1 >Login</h1></div>
+      <div className="formLogin">
       <Form
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         layout="vertical"
+       style={{width:"500px",margin:"0 auto"}}
       >
         <Form.Item
           label="Email"
@@ -63,7 +66,7 @@ const Login = () => {
           ]}
           hasFeedback
         >
-          <Input />
+          <Input style={{height:"40px",fontSize:"18px"}} />
         </Form.Item>
 
         <Form.Item
@@ -78,26 +81,23 @@ const Login = () => {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password style={{height:"40px",fontSize:"18px"}} />
         </Form.Item>
 
         <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
+         style={{display:"flex",justifyContent: "center",}}
         >
-          <Checkbox>Remember me</Checkbox>
+           <NavLink className="google" to={baseURL}><FcGoogle /> Google</NavLink>
         </Form.Item>
-        <Form.Item>
-          <NavLink to="http://localhost:8080/api/auth/google/login"><FcGoogle/> Google</NavLink>
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+      
+        <Form.Item  style={{display:"flex",justifyContent: "center",}} >
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-          <NavLink to="/auth/register">Register</NavLink>
+          <NavLink to="/auth/register"> Register</NavLink>
         </Form.Item>
       </Form>
+      </div>
     </div>
   )
 }

@@ -27,7 +27,7 @@ dotenv.config();
             //       expiresIn: '1d',
             //    });
                const accessToken = jwt.sign({ _id: user._id }, process.env.SERECT_ACCESSTOKEN_KEY, {
-                  expiresIn: '5m',
+                  expiresIn: '24h',
                });
                return done(null, {
                   accessToken,

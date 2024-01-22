@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IOder } from '../common/order';
 import { ICart } from '../common/cart';
+import { baseUrl } from './fetchBaseQuery.service';
 
 const cartAPI = createApi({
     reducerPath: 'cart',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api',
+        baseUrl: baseUrl,
         credentials: "include"
     }),
     tagTypes: ['cart'],

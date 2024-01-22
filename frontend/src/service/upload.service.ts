@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { IUpload } from '../common/upload';
+import { baseURL } from '../config/baseURL';
+import { baseUrl } from './fetchBaseQuery.service';
 
 const uploadAPI = createApi({
     reducerPath: 'upload',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api',
+        baseUrl: baseUrl,
         credentials: "include"
     }),
 

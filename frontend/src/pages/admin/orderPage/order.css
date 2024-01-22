@@ -9,7 +9,7 @@
     align-items: center;
    margin-top: 15px;
 }
-.done, .pending, .cancelled ,.processing{
+.done, .pending, .cancelled ,.processing, .success{
     background-color: #55b32c;
     padding: 5px 10px;
     border-radius: 5px;
@@ -23,4 +23,7 @@
 }
 .processing{
     background-color: #45818E;
+}
+.success{
+    background-color: green;
 }

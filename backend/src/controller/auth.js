@@ -83,9 +83,10 @@ export const logOut = (req, res) => {
 }
 export const redirect = (req, res) => {
     if (req.user?.data) {
-        res.cookie('accessToken', req.user?.accessToken, {
-            expires: new Date(Date.now() + 60 * 1000),
-            httpOnly: true,
+        res.cookie('accessToken', req.user?.accessToken, { 
+            // expires: new Date(Date.now() + 600 * 1000),
+            maxAge: 24 * 60 * 60 * 1000,  
+            // httpOnly: true,
         });
         res.redirect(process.env.GOOGLE_REDIRECT_URL);
     } else {

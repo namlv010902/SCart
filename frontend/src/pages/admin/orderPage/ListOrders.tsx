@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { IProduct } from '../../../common/products';
 import "./order.css"
 import { toast } from 'react-toastify';
-import { CANCELLED_ORDER, DONE_ORDER, PENDING_ORDER, PROCESS_ORDER } from '../../../constants/order';
+import { CANCELLED_ORDER, DONE_ORDER, PENDING_ORDER, PROCESS_ORDER, SUCCESS_ORDER } from '../../../constants/order';
 import { formatTime } from '../../../config/formatTime';
 import Loading from '../../../components/Loading';
 import { formatPrice } from '../../../config/formatPrice';
@@ -69,7 +69,7 @@ const ListOrders = () => {
       key: 'status',
       render: (_, record) => {
         return (
-          <Space className={record.status == DONE_ORDER ? "done" : record.status == PROCESS_ORDER ? "processing" : record.status == CANCELLED_ORDER ? "cancelled" : record.status == PENDING_ORDER ? "pending" : ""}>{record.status}</Space>
+          <Space className={record.status == DONE_ORDER ? "done" : record.status == PROCESS_ORDER ? "processing" : record.status == CANCELLED_ORDER ? "cancelled" : record.status == PENDING_ORDER ? "pending" : record.status == SUCCESS_ORDER ? "success" : ""}>{record.status}</Space>
         )
       }
     },
@@ -156,6 +156,7 @@ const ListOrders = () => {
   const options = [
     { value: "Chờ xác nhận", label: "Chờ xác nhận" },
     { value: "Đang giao hàng", label: "Đang giao hàng" },
+    { value: "Giao hàng thành công", label: "Giao hàng thành công" },
     { value: "Hoàn thành", label: "Hoàn thành" },
   ]
   const TIME = formatTime(dataOneOrder?.data)

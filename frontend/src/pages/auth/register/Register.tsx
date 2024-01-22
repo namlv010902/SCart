@@ -50,6 +50,7 @@ const Register = () => {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     layout="vertical"
+                    style={{width:"500px",margin:"0 auto"}}
                 >
                     <Form.Item<FieldType>
                         label="Username"
@@ -57,7 +58,7 @@ const Register = () => {
                         hasFeedback
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input />
+                        <Input style={{height:"40px",fontSize:"18px"}} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Email"
@@ -68,7 +69,7 @@ const Register = () => {
                             message: "The email is not valid!"
                         }]}
                     >
-                        <Input />
+                        <Input style={{height:"40px",fontSize:"18px"}} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Phone Number"
@@ -91,7 +92,7 @@ const Register = () => {
                             message: "Min length must be at least 6 characters"
                         }]}
                     >
-                        <Input.Password />
+                        <Input.Password style={{height:"40px",fontSize:"18px"}} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Confirm Password"
@@ -99,10 +100,10 @@ const Register = () => {
                         hasFeedback
                         rules={[{ required: true, message: 'Please input confirmPassword!' }]}
                     >
-                        <Input.Password />
+                        <Input.Password style={{height:"40px",fontSize:"18px"}} />
                     </Form.Item>
 
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Form.Item style={{display:"flex",justifyContent: "center",}}>
                         <Button type="primary" htmlType="submit">
                             Submit
                         </Button>

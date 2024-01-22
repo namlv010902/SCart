@@ -52,8 +52,6 @@ const ShowCart = () => {
     }
 
   }, [cartDb, isSuccess, error]);
-  // console.log(cartDb?.body?.data?.products);
-  console.log(dataOneProduct);
 
   const updateQuantity =  (id: string, quantity: any) => {
      getProduct(id)

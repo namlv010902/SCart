@@ -13,18 +13,18 @@ import { formatPrice } from '../../../config/formatPrice';
 import Step from '../../../components/Steps';
 const Checkout = () => {
     const [data, setData] = useState([]);
-    const { data: cartDb, } = useGetCartQuery();
+    const { data: cartDb,isSuccess:getCartDb } = useGetCartQuery();
     const { data: dataUser, error: errorToken } = useGetTokenQuery<IUser>()
     const [createOrder, { error, isSuccess }] = useCreateOrderMutation()
     const [user, setUser] = useState<IUser | null>(null)
     let cart = JSON.parse(localStorage.getItem("cart")!);
-    const accessToken = document.cookie.split('=')[1]
+ 
     const navigate = useNavigate()
 
     const [form] = Form.useForm<IUser>();
 
     useEffect(() => {
-        if (accessToken) {
+        if (getCartDb) {
             const products = cartDb?.body?.data?.products;
             const formatCartDb = products?.map((item: any) => ({
                 _id: item?._id._id,
@@ -37,14 +37,14 @@ const Checkout = () => {
         } else {
             setData(cart);
         }
-    }, [cartDb]);
+    }, [getCartDb]);
 
     useEffect(() => {
         if (error) {
             alert(error);
         }
         if (isSuccess) {
-            if (!accessToken) {
+            if (!getCartDb) {
                 localStorage.removeItem("cart")
             }
             navigate("/result");
@@ -64,7 +64,7 @@ const Checkout = () => {
         }
     }, [errorToken, dataUser])
 
-    console.log(user);
+    console.log(data);
 
     let totalPayment = 0
     totalPayment = data?.reduce((a: number, c: any) => a + c.price * c.quantity, 0)
@@ -201,7 +201,7 @@ const Checkout = () => {
                         </Form>
                     
                     </div>
-                </div> : ""}
+                </div> : <h3>This shopping cart empty</h3> }
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import express from "express";
-import { connectToGoogle} from "./config/googleOAuth"
+import { connectToGoogle } from "./config/googleOAuth"
 import session from "express-session";
 import routerProduct from "./routers/products"
 import routerCategory from "./routers/categories"
@@ -12,9 +12,11 @@ import routerUpload from "./routers/upload"
 import routerEvaluation from "./routers/evalution"
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser"
-
+import cron from "node-cron"
 dotenv.config();
 import cors from "cors"
+import order from "./models/order";
+import { DONE_ORDER, SUCCESS_ORDER } from "./config/constants";
 
 const app = express()
 
@@ -22,12 +24,12 @@ app.use(cookieParser());
 app.use(express.json())
 app.use(cors({ origin: true, credentials: true }));
 app.use(
-    session({
-      resave: false,
-      saveUninitialized: true,
-      secret: "SECRET",
-    })
-  );
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: "SECRET",
+  })
+);
 app.use("/api", routerProduct)
 app.use("/api", authRouter)
 app.use("/api", routerCategory)
@@ -37,15 +39,33 @@ app.use("/api", routerUser)
 app.use("/api", routerUpload)
 app.use("/api", routerEvaluation)
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
 });
+cron.schedule('*/30 * * * *', async () => {
+  const orders = await orders.find({ status: SUCCESS_ORDER });
+  for (const order of orders) {
+    const targetDate = new Date(order.updatedAt);
+    // Lấy ngày hiện tại
+    const currentDate = new Date();
+    // Số mili giây trong 3 ngày
+    const threeDaysInMillis = 5 * 60 * 1000;
+    // Kiểm tra xem thời gian hiện tại đến ngày cụ thể có cách 3 ngày không
+    const isRatherThreeDays = currentDate - targetDate >= threeDaysInMillis;
+    if (isRatherThreeDays) {
+      await orders.findByIdAndUpdate(order._id, {
+        status: DONE_ORDER,
+        pay: true,
+      });
+      console.log("Đã hoàn thành")
+}}
+})
 connectToGoogle()
 mongoose.connect(process.env.URL)
-    .then(() => console.log("connected db"))
+  .then(() => console.log("connected db"))
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-    console.log(`listening success ${PORT}`);
+  console.log(`listening success ${PORT}`);
 });

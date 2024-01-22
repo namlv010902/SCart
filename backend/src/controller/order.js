@@ -2,7 +2,7 @@ import Order from "../models/order"
 import checkoutValidate from "../schema/checkout"
 import Cart from "../models/cart"
 import User from "../models/user"
-import { CANCELLED_ORDER, DONE_ORDER, ORDERS, PENDING_ORDER } from "../config/constants"
+import { CANCELLED_ORDER, DONE_ORDER, ORDERS, PENDING_ORDER, SUCCESS_ORDER } from "../config/constants"
 export const createOrder = async (req, res) => {
     try {
         const { error } = checkoutValidate.validate(req.body)
@@ -18,7 +18,7 @@ export const createOrder = async (req, res) => {
         const order = await Order.create(req.body)
         if (order && user != null) {
             await Cart.findOneAndUpdate({ userId: req.user._id }, { products: [] })
-            await User.findByIdAndUpdate(req.user._id, { address: req.body.address })
+            await User.findByIdAndUpdate(req.user._id, { address: req.body.address, phoneNumber:req.body.phoneNumber })
         }
         return res.status(201).json({
             message: "Order created successfully",
@@ -164,6 +164,25 @@ export const filterStatusOrderForMember = async (req, res) => {
         const order = await Order.find({ userId: req.user._id, status: req.params.status });
         return res.status(200).json({
             message: "Filter",
+            data: order,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+export const confirmOrder = async (req, res) => {
+    try {
+        const data = await Order.findById(req.params.id)
+        if(data.status != SUCCESS_ORDER){
+            return res.status(400).json({
+                message: "Status invalid!",
+            })
+        }
+        const order = await Order.findByIdAndUpdate(req.params.id,{status:DONE_ORDER, pay:true },{new:true});
+        return res.status(200).json({
+            message: "DONE",
             data: order,
         });
     } catch (error) {

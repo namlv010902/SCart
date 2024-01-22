@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom"
-import { useCancelledOrderMutation, useDetailOrderQuery } from "../../../service/order.service"
+import { useCancelledOrderMutation, useConfirmOrderMutation, useDetailOrderQuery } from "../../../service/order.service"
 import "./order.css"
 import { ArrowRightOutlined } from "@ant-design/icons"
 import { formatPrice } from "../../../config/formatPrice"
 import { IProduct } from "../../../common/products"
 import { Button, Input, Modal, Rate } from "antd"
-import { DONE_ORDER, PENDING_ORDER } from "../../../constants/order"
+import { DONE_ORDER, PENDING_ORDER, PROCESS_ORDER, SUCCESS_ORDER } from "../../../constants/order"
 import { useEffect, useState } from "react"
 import { useCreateEvaluationMutation } from "../../../service/evaluation.service"
 import { toast } from "react-toastify"
@@ -18,6 +18,7 @@ const DetailOrder = () => {
   const [content, setContent] = useState("")
   const [rate, setRate] = useState(1)
   const [idProduct, setIdProduct] = useState("")
+  const [confirm] = useConfirmOrderMutation()
 
   const [createEvaluation, { isSuccess, error }] = useCreateEvaluationMutation()
   const formatTime = new Date(data?.data?.createdAt).toLocaleDateString()
@@ -98,7 +99,7 @@ const DetailOrder = () => {
                   <div className="item">
                     <img src={item.image} alt="Product" />
                     <div className="item-info">
-                      <h3> <Link style={{ color: "#3b9048", textDecoration: "none" }} to={"/products/" + item._id} >{item.name}</Link> </h3>
+                      <h3> <Link style={{ color: "#3b9048", textDecoration: "none",fontWeight:"500" }} to={"/products/" + item._id} >{item.name}</Link> </h3>
                       <p>Số lượng: {item.quantity} (Kg)</p>
                       <p>Giá: {price}</p>
                     </div>
@@ -109,7 +110,7 @@ const DetailOrder = () => {
                     <Modal footer="" title="Đánh giá sản phẩm" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                       <Rate defaultValue={1} onChange={(value) => { setRate(value) }
                       } />
-                      <Input.TextArea style={{margin:"20px 0"}} allowClear onChange={(e) => setContent(e.target.value)} />
+                      <Input.TextArea style={{ margin: "20px 0" }} allowClear onChange={(e) => setContent(e.target.value)} />
                       <Button type="primary" onClick={() => onHandleRating()}>Submit</Button>
                     </Modal>
 
@@ -120,9 +121,11 @@ const DetailOrder = () => {
 
           </ul>
         </div>
-        <div className="cancelled">
+        <div id="cancelled">
           {data?.data?.status == PENDING_ORDER && <Button type="primary" danger style={{ marginTop: "15px" }} onClick={() => handleCancelledOrder()}>Hủy đơn hàng</Button>}
         </div>
+
+        {data?.data?.status == SUCCESS_ORDER && <Button type="primary" danger style={{ marginTop: "15px",backgroundColor:"#4b9f27" }} onClick={() => confirm(id)}>Đã nhận được hàng</Button>}
       </div>
 
     </div>

@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ICategory } from '../common/category';
 import { IEvaluation } from '../common/evaluation';
+import { baseUrl } from './fetchBaseQuery.service';
 
 const evaluationAPI = createApi({
     reducerPath: 'evaluation',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api',
+        baseUrl: baseUrl,
         credentials: "include"
     }),
     tagTypes: ['evaluation'],
