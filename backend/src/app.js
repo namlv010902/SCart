@@ -46,23 +46,24 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
 cron.schedule('*/30 * * * *', async () => {
   const orders = await Order.find({ status: SUCCESS_ORDER });
+  console.log("data", orders);
   for (const order of orders) {
-    const targetDate = new Date(order.updatedAt);
-    // Lấy ngày hiện tại
+    const targetDate = new Date(order.createdAt);
     const currentDate = new Date();
-    // Số mili giây trong 3 ngày
-    const threeDaysInMillis = 5 * 60 * 1000;
-    // Kiểm tra xem thời gian hiện tại đến ngày cụ thể có cách 3 ngày không
+    const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000;
+    console.log("Date", currentDate - targetDate, "three: ", threeDaysInMillis);
     const isRatherThreeDays = currentDate - targetDate >= threeDaysInMillis;
     if (isRatherThreeDays) {
-      await orders.findByIdAndUpdate(order._id, {
+      await Order.findByIdAndUpdate(order._id, {
         status: DONE_ORDER,
         pay: true,
       });
-      console.log("Đã hoàn thành")
-}}
+      console.log("Đã hoàn thành",)
+    }
+  }
 })
 connectToGoogle()
 mongoose.connect(process.env.URL)
