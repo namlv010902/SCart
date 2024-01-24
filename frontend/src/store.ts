@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import productReducer from './service/product.service'
-import authReducer from './service/auth.service'
-import userReducer from './service/user.service'
-import cartReducer from './service/cart.service'
-import orderReducer from './service/order.service'
-import categoryReducer from './service/category.service'
-import uploadReducer from './service/upload.service'
-import evaluationReducer from './service/evaluation.service'
+import productReducer from './services/product.service'
+import authReducer from './services/auth.service'
+import userReducer from './services/user.service'
+import cartReducer from './services/cart.service'
+import orderReducer from './services/order.service'
+import categoryReducer from './services/category.service'
+import uploadReducer from './services/upload.service'
+import evaluationReducer from './services/evaluation.service'
 import productSlice from "./slices/product"
 import cartSlice from "./slices/cartLocal"
 

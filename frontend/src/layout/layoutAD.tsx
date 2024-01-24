@@ -13,7 +13,7 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme, Button } from 'antd';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { IUser } from '../common/user';
-import { useGetTokenQuery } from '../service/auth.service';
+import { useGetTokenQuery } from '../services/auth.service';
 import { FaMoneyBill1Wave, FaProductHunt } from 'react-icons/fa6';
 import { MdOutlineCategory, MdOutlineStarRate } from 'react-icons/md';
 import { logoUrl } from '../components/logo/imgUrl';
@@ -85,8 +85,8 @@ const LayOutAD = () => {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
         </Sider>
         <Layout className="site-layout">
-          <Header style={{ padding: "0 20px", background: colorBgContainer,boxShadow:"0 0 5px 5px #ccc" }} >
-           <p>Hi,  <MdAdminPanelSettings></MdAdminPanelSettings>{data?.data?.userName}</p>
+          <Header style={{ padding: "0 20px", background: colorBgContainer, boxShadow: "0 0 5px 5px #ccc" }} >
+            <p>Hi,  <MdAdminPanelSettings></MdAdminPanelSettings>{data?.data?.userName}</p>
           </Header>
 
 

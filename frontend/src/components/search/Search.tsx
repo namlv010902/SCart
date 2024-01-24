@@ -1,10 +1,10 @@
-import { Drawer, Input,Spin } from 'antd'
+import { Drawer, Input, Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import "./search.css"
 import { NavLink } from 'react-router-dom'
 import { scrollToTop } from '../../config/scrollToTop'
-import { useSearchProductMutation } from '../../service/product.service'
+import { useSearchProductMutation } from '../../services/product.service'
 import { formatPrice } from '../../config/formatPrice'
 
 const Search = () => {
@@ -94,7 +94,7 @@ const Search = () => {
             <Drawer placement="top" onClose={onClose} open={open}>
                 <Input placeholder="Search..." onChange={handleInputChange} />
                 {isLoading ? (
-                   <Spin/>
+                    <Spin />
                 ) : (
                     <ShowSearch />
                 )}

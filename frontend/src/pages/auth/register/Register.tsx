@@ -1,7 +1,7 @@
-import { useRegisterMutation } from "../../../service/auth.service";
+import { useRegisterMutation } from "../../../services/auth.service";
 import "../login/login.css"
 import { useEffect, useState } from "react"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spin, Form, Input } from 'antd';
 import { useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ const Register = () => {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     layout="vertical"
-                    style={{width:"500px",margin:"0 auto"}}
+                    style={{ width: "500px", margin: "0 auto" }}
                 >
                     <Form.Item<FieldType>
                         label="Username"
@@ -58,7 +58,7 @@ const Register = () => {
                         hasFeedback
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input style={{height:"40px",fontSize:"18px"}} />
+                        <Input style={{ height: "40px", fontSize: "18px" }} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Email"
@@ -69,7 +69,7 @@ const Register = () => {
                             message: "The email is not valid!"
                         }]}
                     >
-                        <Input style={{height:"40px",fontSize:"18px"}} />
+                        <Input style={{ height: "40px", fontSize: "18px" }} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Phone Number"
@@ -92,7 +92,7 @@ const Register = () => {
                             message: "Min length must be at least 6 characters"
                         }]}
                     >
-                        <Input.Password style={{height:"40px",fontSize:"18px"}} />
+                        <Input.Password style={{ height: "40px", fontSize: "18px" }} />
                     </Form.Item>
                     <Form.Item<FieldType>
                         label="Confirm Password"
@@ -100,10 +100,10 @@ const Register = () => {
                         hasFeedback
                         rules={[{ required: true, message: 'Please input confirmPassword!' }]}
                     >
-                        <Input.Password style={{height:"40px",fontSize:"18px"}} />
+                        <Input.Password style={{ height: "40px", fontSize: "18px" }} />
                     </Form.Item>
 
-                    <Form.Item style={{display:"flex",justifyContent: "center",}}>
+                    <Form.Item style={{ display: "flex", justifyContent: "center", }}>
                         <Button type="primary" htmlType="submit">
                             Submit
                         </Button>

@@ -1,6 +1,6 @@
 import { Button, Space, Table, TableProps, Modal, Select, Form } from 'antd';
 import { FaEye } from "react-icons/fa";
-import { useCancelledOrderMutation, useDetailOrderQuery, useGetAllOrdersQuery, useUpdateOrderMutation } from '../../../service/order.service';
+import { useCancelledOrderMutation, useDetailOrderQuery, useGetAllOrdersQuery, useUpdateOrderMutation } from '../../../services/order.service';
 import { IOder } from '../../../common/order';
 import { useEffect, useState } from 'react';
 import { IProduct } from '../../../common/products';

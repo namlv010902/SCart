@@ -1,6 +1,6 @@
 import { Button, Modal, Space, Table, TableProps, Tag, Select, Form, Input, Rate, Switch } from 'antd';
 import Loading from '../../../components/Loading';
-import { useGetAllEvaluationQuery, useUpdateReviewMutation } from '../../../service/evaluation.service';
+import { useGetAllEvaluationQuery, useUpdateReviewMutation } from '../../../services/evaluation.service';
 import { IEvaluation } from '../../../common/evaluation';
 import { formatTime } from '../../../config/formatTime';
 import { useEffect } from 'react';

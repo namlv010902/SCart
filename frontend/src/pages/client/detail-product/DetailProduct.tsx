@@ -6,19 +6,21 @@ import { FacebookOutlined } from "@ant-design/icons"
 import { ArrowRightOutlined, PlusOutlined, TwitterOutlined, MinusOutlined, YoutubeOutlined, InstagramOutlined } from "@ant-design/icons"
 import Product from "../../../components/product/product"
 import Rating from "../../../components/Rate/Rate"
-import { useGetProductByIdQuery, useGetProductOutStandingQuery, useGetRelatedProductQuery } from "../../../service/product.service"
+import { useGetProductByIdQuery, useGetProductOutStandingQuery, useGetRelatedProductQuery } from "../../../services/product.service"
 import { IProduct } from "../../../common/products"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAddToCartMutation, useGetCartQuery } from "../../../service/cart.service"
+import { useAddToCartMutation, useGetCartQuery } from "../../../services/cart.service"
 import { useDispatch, useSelector } from 'react-redux';
 import LastViewProduct from "../../../components/lastViewProduct/LastViewProduct"
 import { formatPrice } from "../../../config/formatPrice"
 import SpecialProduct from "../../../components/specialProduct/SpecialProduct"
+import { addCart, fetchProductById } from "../../../slices/cartLocal"
+import Loading from "../../../components/Loading"
 const DetailProduct = () => {
-
+  const dispatch = useDispatch();
   const { id } = useParams()
-  const { data, error } = useGetProductByIdQuery(id)
+  const { data, error,isLoading } = useGetProductByIdQuery(id)
   const [quantity, setQuantity] = react.useState(1)
   const { data: relatedProducts } = useGetRelatedProductQuery(data?.data?.categoryId?._id)
   const [addToCart, { isSuccess, error: errorCart }] = useAddToCartMutation()
@@ -26,7 +28,7 @@ const DetailProduct = () => {
   let cart = JSON.parse(localStorage.getItem("cart")!);
   const [dataCart, setData] = useState([]);
   const [dataRelated, setDataRelated] = useState([])
-  const dispatch = useDispatch();
+
   const menu = [
     {
       name: "HOME", link: "/"
@@ -80,7 +82,7 @@ const DetailProduct = () => {
     }
   }, [isSuccess, errorCart])
 
-  const handleAddToCart = (e: any) => {
+  const handleAddToCart = async(e: any) => {
     e.preventDefault();
     const dataCart = {
       name: data?.data?.name,
@@ -88,8 +90,8 @@ const DetailProduct = () => {
       image: data?.data?.image,
       _id: data?.data?._id,
       quantity: parseInt(quantity),
+      maxQuantity:data?.data?.quantity
     };
-
     if (success) {
       const dataCartDB = {
         _id: data?.data?._id,
@@ -99,31 +101,8 @@ const DetailProduct = () => {
       return
     }
 
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const productIndex = cart?.find((item: any) => item._id == id)
-
-    if (productIndex) {
-      if (quantity > data?.data?.quantity - productIndex.quantity) {
-        toast.error("Đã đạt tối đa số lượng mua!", {
-          autoClose: 3000,
-        })
-        return
-      }
-
-      productIndex.quantity = productIndex.quantity + quantity
-      localStorage.setItem("cart", JSON.stringify(cart));
-    } else {
-      cart.push(dataCart);
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-    toast.success("Added cart successfully", {
-      autoClose: 3000,
-    })
-    setQuantity(1)
-
+    dispatch(addCart(dataCart));
   };
-
-
   const handleQuantity = (value: number) => {
     console.log(value);
     if (isNaN(value)) {
@@ -137,7 +116,6 @@ const DetailProduct = () => {
         setQuantity(maxQuantity)
         return
       }
-
     }
     if (value >= data?.data?.quantity) {
       setQuantity(data?.data?.quantity)
@@ -167,7 +145,8 @@ const DetailProduct = () => {
   const price = formatPrice(data?.data?.price)
   const formatedPrice = formatPrice(data?.data?.price - data?.data?.price * data?.data?.discount / 100)
   return (
-    <div>
+    <div style={{minHeight:"80vh"}}>
+    {isLoading ? <Loading/> :  <div>
       <div className="banner-detail" >
         <h1>{data?.data?.name}</h1>
       </div>
@@ -182,7 +161,7 @@ const DetailProduct = () => {
         <Link to={"/categories/" + data?.data?.categoryId?._id}>{data?.data?.categoryId?.name} </Link>  <ArrowRightOutlined rev={undefined} />
         <Link to="#"> {data?.data?.name}</Link>
       </div>
-      <main className="main-detail-product">
+     <main className="main-detail-product">
         <aside>
           <div className="item-aside">
             <div className="aside-title">
@@ -199,18 +178,14 @@ const DetailProduct = () => {
         </aside>
         {!error ? <article>
           <div className="detail-product">
-
             <div className="detail-product-img">
               <img src={data?.data?.image} alt="" />
             </div>
             <div className="detail-product-body">
-
               <h1 className="product-name">{data?.data?.name} </h1>
               <p>SKU: {data?.data?._id} </p>
               <del>{data?.data?.discount > 0 && <>{price}</>}</del><strong> {formatedPrice}/Kg</strong>
-
               <hr className="hr-gray" />
-
               <form onSubmit={handleAddToCart}>
                 <div className="quantity-add">
                   <input type="text" value={quantity} onChange={e => handleQuantity(e.target.value)} />
@@ -219,7 +194,6 @@ const DetailProduct = () => {
                     <span onClick={handleDecrease}><MinusOutlined rev={undefined} /></span>
                   </div>
                 </div>
-
                 {quantity == 0 ? <button disabled style={{ backgroundColor: "#777" }}>ADD TO CART</button> : <button>ADD TO CART</button>}
               </form>
               <div className="info-product">Stock:
@@ -239,7 +213,6 @@ const DetailProduct = () => {
                 <p> <YoutubeOutlined rev={undefined} /> </p>
                 <p> <InstagramOutlined rev={undefined} /> </p>
               </div>
-
             </div>
           </div>
           <div className="desc">
@@ -247,10 +220,8 @@ const DetailProduct = () => {
             <div className="progress">
               <Progress showInfo={false} percent={20} />
             </div>
-
             <div className="desc-content">
               <p>{data?.data?.desc}</p>
-
               <p className="desc-img">{data?.data?.desc}
                 <img src="https://bizweb.dktcdn.net/100/431/449/themes/877121/assets/img-footer.png?1695378841384" alt="" />
               </p>
@@ -264,13 +235,13 @@ const DetailProduct = () => {
             ))}
             </div>
           </div>
-
         </article> : <h3>PRODUCT NOT FOUND</h3>}
-
-
       </main>
      
-    </div >
+    </div >}
+   
+   
+    </div>
   )
 }
 

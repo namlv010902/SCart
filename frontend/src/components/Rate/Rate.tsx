@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Rate.css"
 import { Rate } from "antd"
-import { useGetEvaluationByIdProductQuery } from '../../service/evaluation.service'
+import { useGetEvaluationByIdProductQuery } from '../../services/evaluation.service'
 import { formatTime } from '../../config/formatTime'
 import { IEvaluation } from '../../common/evaluation'
 const Rating = (props: any) => {
@@ -15,7 +15,7 @@ const Rating = (props: any) => {
     const avgRate = sum / data?.data?.length
     return (
         <div >
-            <h3 style={{ color: "#3b9048", fontWeight: "500", marginTop: "40px", marginBottom: "20px" }}>Rating:(<Rate disabled value={avgRate} />)</h3>
+            <h3 style={{ color: "#3b9048", fontWeight: "500", marginTop: "40px", marginBottom: "20px" }}>Rating:(<Rate allowHalf disabled value={avgRate} />)</h3>
             <div className="review">
                 {data?.data?.map((item: IEvaluation) => {
                     avg += item.rate
@@ -31,7 +31,7 @@ const Rating = (props: any) => {
 
                             </div>
                             <div className="content">
-                             {item.isReview ? <p> {item?.content}</p> : <p>Nội dung đã bị ẩn</p>}   
+                                {item.isReview ? <p> {item?.content}</p> : <p>Nội dung đã bị ẩn</p>}
                             </div>
                         </div>
                     )

@@ -27,6 +27,7 @@ export const getAll = async (req, res) => {
     const query = {}
     if (_q) {
       query.name = { $regex: _q, $options: "i" };
+      // query.categoryId.name = { $regex: _q, $options: "i" };
     }
     if (_categoryId) {
       query.categoryId = _categoryId

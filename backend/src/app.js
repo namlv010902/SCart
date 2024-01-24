@@ -62,9 +62,7 @@ cron.schedule('*/30 * * * *', async () => {
         pay: true,
       });
       console.log("Đã hoàn thành",)
-    }
-  }
-})
+  }}})
 connectToGoogle()
 mongoose.connect(process.env.URL)
   .then(() => console.log("connected db"))

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-import { useCancelledOrderMutation, useConfirmOrderMutation, useDetailOrderQuery } from "../../../service/order.service"
+import { useCancelledOrderMutation, useConfirmOrderMutation, useDetailOrderQuery } from "../../../services/order.service"
 import "./order.css"
 import { ArrowRightOutlined } from "@ant-design/icons"
 import { formatPrice } from "../../../config/formatPrice"
@@ -7,7 +7,7 @@ import { IProduct } from "../../../common/products"
 import { Button, Input, Modal, Rate } from "antd"
 import { DONE_ORDER, PENDING_ORDER, PROCESS_ORDER, SUCCESS_ORDER } from "../../../constants/order"
 import { useEffect, useState } from "react"
-import { useCreateEvaluationMutation } from "../../../service/evaluation.service"
+import { useCreateEvaluationMutation } from "../../../services/evaluation.service"
 import { toast } from "react-toastify"
 
 const DetailOrder = () => {
@@ -99,7 +99,7 @@ const DetailOrder = () => {
                   <div className="item">
                     <img src={item.image} alt="Product" />
                     <div className="item-info">
-                      <h3> <Link style={{ color: "#3b9048", textDecoration: "none",fontWeight:"500" }} to={"/products/" + item._id} >{item.name}</Link> </h3>
+                      <h3> <Link style={{ color: "#3b9048", textDecoration: "none", fontWeight: "500" }} to={"/products/" + item._id} >{item.name}</Link> </h3>
                       <p>Số lượng: {item.quantity} (Kg)</p>
                       <p>Giá: {price}</p>
                     </div>
@@ -125,7 +125,7 @@ const DetailOrder = () => {
           {data?.data?.status == PENDING_ORDER && <Button type="primary" danger style={{ marginTop: "15px" }} onClick={() => handleCancelledOrder()}>Hủy đơn hàng</Button>}
         </div>
 
-        {data?.data?.status == SUCCESS_ORDER && <Button type="primary" danger style={{ marginTop: "15px",backgroundColor:"#4b9f27" }} onClick={() => confirm(id)}>Đã nhận được hàng</Button>}
+        {data?.data?.status == SUCCESS_ORDER && <Button type="primary" danger style={{ marginTop: "15px", backgroundColor: "#4b9f27" }} onClick={() => confirm(id)}>Đã nhận được hàng</Button>}
       </div>
 
     </div>

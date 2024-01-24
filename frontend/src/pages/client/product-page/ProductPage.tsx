@@ -2,15 +2,16 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "./product.css"
-import { useGetProductOutStandingQuery, useSortProductMutation, useFilterPriceMutation } from '../../../service/product.service'
+import { useGetProductOutStandingQuery, useSortProductMutation, useFilterPriceMutation } from '../../../services/product.service'
 import { IProduct } from '../../../common/products'
 import { Select, Slider, PaginationProps, Pagination } from "antd"
 import Product from '../../../components/product/product'
-import { useGetAllProductQuery } from '../../../service/product.service'
-import { useGetAllCategoryQuery, useGetCategoryByIdMutation } from '../../../service/category.service'
+import { useGetAllProductQuery } from '../../../services/product.service'
+import { useGetAllCategoryQuery, useGetCategoryByIdMutation } from '../../../services/category.service'
 import { ICategory } from '../../../common/category'
 import LastViewProduct from '../../../components/lastViewProduct/LastViewProduct'
 import SpecialProduct from '../../../components/specialProduct/SpecialProduct'
+import Loading from '../../../components/Loading'
 
 const ProductPage = () => {
     const { data: productOutStanding } = useGetProductOutStandingQuery()
@@ -76,7 +77,7 @@ const ProductPage = () => {
     const options = [
         { label: 'Giảm dần', value: 'desc' },
         { label: 'Tăng dần', value: 'asc' },
-       
+
     ]
     return (
         <div>
@@ -99,6 +100,7 @@ const ProductPage = () => {
                         <div className="aside-title">
                             <h6>CATEGORIES <img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h6>
                         </div>
+                        {isLoading ? <Loading /> :<>
                         {categories?.data?.docs?.map((item: ICategory) => {
                             console.log(item._id == activeItemId);
                             return (
@@ -111,11 +113,8 @@ const ProductPage = () => {
                                     >
                                         {item?.name}
                                     </Link></>
-                            )
-                        }
-
-
-                        )}
+                            )})}
+                        </> }              
                         <div className="product-minimal">
                         </div>
                     </div>
@@ -129,7 +128,8 @@ const ProductPage = () => {
                         <div className="aside-title">
                             <h6>SPECIAL PRODUCTS <img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h6>
                         </div>
-                        <SpecialProduct />
+                        {isLoading ? <Loading /> :<SpecialProduct /> }
+                        
                     </div>
                     <div className="item-aside">
                         <div className="aside-title">
@@ -147,15 +147,12 @@ const ProductPage = () => {
                             onChange={handleSort}
                             options={options}
                         />
-
-
-
                     </div>
-                    <div className="products" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+                    {isLoading ? <Loading /> : <div className="products" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
                         {currentProducts?.map((item: IProduct) => (
                             <Product product={item}></Product>
                         ))}
-                    </div>
+                    </div>}
                     <div className="pagination" style={{ textAlign: "center" }}>
                         <Pagination current={currentPage} onChange={onChange} total={products?.length} pageSize={pageSize} />
                     </div>

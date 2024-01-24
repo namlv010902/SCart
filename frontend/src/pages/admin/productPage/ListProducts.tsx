@@ -1,7 +1,7 @@
 
 import { Button, Image, Space, Table, Tag, Spin, InputNumber, Select, Switch } from 'antd';
 import type { TableProps } from 'antd';
-import { useCreateProductMutation, useGetAllProductQuery, useGetOneProductMutation, useGetProductByIdQuery, useRemoveProductMutation, useUpdateProductMutation } from '../../../service/product.service';
+import { useCreateProductMutation, useGetAllProductQuery, useGetOneProductMutation, useGetProductByIdQuery, useRemoveProductMutation, useUpdateProductMutation } from '../../../services/product.service';
 import { formatPrice } from '../../../config/formatPrice';
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { MdEditSquare } from "react-icons/md";
@@ -9,9 +9,9 @@ import { IProduct } from '../../../common/products';
 import { Modal, Checkbox, Form, Input } from 'antd';
 import Loading from '../../../components/Loading';
 import { useEffect, useState } from 'react';
-import { useGetAllCategoryQuery } from '../../../service/category.service';
+import { useGetAllCategoryQuery } from '../../../services/category.service';
 import { ICategory } from '../../../common/category';
-import { useUploadMutation } from '../../../service/upload.service';
+import { useUploadMutation } from '../../../services/upload.service';
 import { IoMdAdd } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
@@ -58,7 +58,7 @@ const ListProducts = () => {
       form.setFieldValue("desc", DataOneProduct?.data?.desc)
       form.setFieldValue("categoryId", DataOneProduct?.data?.categoryId?._id)
       form.setFieldValue("discount", DataOneProduct?.data?.discount)
-       form.setFieldValue("outStanding", DataOneProduct?.data?.outStanding)
+      form.setFieldValue("outStanding", DataOneProduct?.data?.outStanding)
       form.setFieldValue("image", DataOneProduct?.data?.image)
       setImgUrl(DataOneProduct?.data?.image)
     }
@@ -152,7 +152,7 @@ const ListProducts = () => {
   const data = DataProducts?.data?.docs
   const onFinish = (values: any) => {
     console.log('Success:', values);
-     createProduct(values)
+    createProduct(values)
   };
 
 
@@ -212,7 +212,7 @@ const ListProducts = () => {
     <div>
       <h3>ListProducts</h3>
       {isLoading ? <Loading /> : <div>
-        <Button type='primary' style={{backgroundColor:"#3b9048",margin:"20px 0"}} onClick={() => {
+        <Button type='primary' style={{ backgroundColor: "#3b9048", margin: "20px 0" }} onClick={() => {
           showModal()
           form.setFieldValue("discount", 0)
         }
@@ -385,7 +385,7 @@ const ListProducts = () => {
             name="outStanding"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-          <Switch ></Switch>
+            <Switch ></Switch>
           </Form.Item>
           <Form.Item >
             <Button type="primary" htmlType="submit">

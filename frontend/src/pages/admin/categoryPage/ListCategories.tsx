@@ -1,7 +1,7 @@
 import { Button, Modal, Space, Table, TableProps, Tag, Select, Form, Input } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { ICategory } from '../../../common/category';
-import { useCreateCategoryMutation, useGetAllCategoryQuery, useGetCategoryByIdMutation, useRemoveCategoryMutation, useUpdateCategoryMutation } from '../../../service/category.service';
+import { useCreateCategoryMutation, useGetAllCategoryQuery, useGetCategoryByIdMutation, useRemoveCategoryMutation, useUpdateCategoryMutation } from '../../../services/category.service';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdEditSquare } from 'react-icons/md';
 import Loading from '../../../components/Loading';
@@ -125,7 +125,7 @@ const ListCategories = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-         {record.type != "default" && <Button onClick={() => handleRemove(record._id)}><RiDeleteBin5Fill /></Button>} 
+          {record.type != "default" && <Button onClick={() => handleRemove(record._id)}><RiDeleteBin5Fill /></Button>}
           <Button onClick={() => {
             showModalUpdate()
             setIdCategory(record._id)
@@ -149,7 +149,7 @@ const ListCategories = () => {
     <div>
       {isLoading ? <Loading /> : <div>
         <h3>List categories</h3>
-        <Button type='primary' style={{backgroundColor:"#3b9048",margin:"20px 0"}}  onClick={showModal}><IoMdAdd /> Tạo mới danh mục</Button>
+        <Button type='primary' style={{ backgroundColor: "#3b9048", margin: "20px 0" }} onClick={showModal}><IoMdAdd /> Tạo mới danh mục</Button>
         <Table dataSource={dataSource} columns={columns} />
       </div>}
       <Modal title="Thêm mới danh mục" footer="" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

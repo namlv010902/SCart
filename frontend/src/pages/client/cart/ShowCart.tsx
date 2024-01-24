@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import "./cart.css";
 import { Steps } from "antd"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { NavLink } from 'react-router-dom';
@@ -9,29 +9,28 @@ import { HiOutlineX } from "react-icons/hi";
 import { HiOutlineMinus, HiOutlinePlusSm } from "react-icons/hi";
 import Swal from 'sweetalert2';
 import { scrollToTop } from '../../../config/scrollToTop';
-import { useGetCartQuery, useRemoveProductInCartMutation, useUpdateCartMutation } from '../../../service/cart.service';
+import { useGetCartQuery, useRemoveProductInCartMutation, useUpdateCartMutation } from '../../../services/cart.service';
 import { formatPrice } from '../../../config/formatPrice';
 import { IProduct } from '../../../common/products';
-import { useGetOneProductMutation } from '../../../service/product.service';
+import { useGetOneProductMutation } from '../../../services/product.service';
 import Step from '../../../components/Steps';
 import Loading from '../../../components/Loading';
-interface TypeProductInCart {
-  _id: {
-    _id: string;
-    name: string;
-    price: number;
-    image: string;
-  };
-  quantity: number;
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { removeProductInCart, selectCart, updateProductQuantity } from '../../../slices/cartLocal';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+
+
 const ShowCart = () => {
-  let cart = JSON.parse(localStorage.getItem("cart")!);
+  const cart = useSelector(selectCart);
   const [data, setData] = useState([]);
   const { data: cartDb, isSuccess, isLoading } = useGetCartQuery();
   const [updateCart, { error }] = useUpdateCartMutation();
   const [deleteProductInCart] = useRemoveProductInCartMutation()
-  const [getProduct, { data: dataOneProduct }] = useGetOneProductMutation()
-
+  const [getProduct, { data: dataOneProduct, isSuccess: getSuccess }] = useGetOneProductMutation()
+  const [quantityValue, setQuantityValue] = useState(0)
+  const [dataUpdate, setDataUpdate] = useState({})
+  const dispatch = useDispatch()
   useEffect(() => {
     if (isSuccess) {
       const products = cartDb?.body?.data?.products;
@@ -50,57 +49,20 @@ const ShowCart = () => {
       toast.error(error?.data?.message, {
         autoClose: 3000,
       })
+
     }
 
-  }, [cartDb, isSuccess, error]);
+  }, [ isSuccess, error, cart]);
 
-  const updateQuantity = (id: string, quantity: any) => {
-    getProduct(id)
-    const updatedData = data.map((item: any) => {
-      if (item._id === id) {
-        if (quantity === "increase") {
-          return {
-            ...item,
-            quantity: item.quantity + 1
-          };
-        }
-        if (quantity === "decrease") {
-          if (item.quantity - 1 > 0) {
-            return {
-              ...item,
-              quantity: item.quantity - 1
-            };
-          } else {
-            return {
-              ...item,
-              quantity: 1
-            };
-          }
-        }
-        if (quantity > 0) {
-          console.log(cart);
-
-          return {
-            ...item,
-            quantity: quantity
-          };
-        } else {
-          return {
-            ...item,
-            quantity: 1
-          };
-        }
-      }
-      return item;
-    });
-
+  console.log("maxQuantity: ",quantityValue);
+  const updateQuantity = async (id: string, quantity: any) => {
+    await getProduct(id)
     if (isSuccess) {
       const productIndex = cartDb?.body?.data?.products.find((item: any) => item._id._id == id)
-
-      if (quantity == "increase" && productIndex) {
+      if (quantity == "asc" && productIndex) {
         quantity = productIndex.quantity + 1
       }
-      if (quantity == "decrease" && productIndex) {
+      if (quantity == "desc" && productIndex) {
         quantity = productIndex.quantity - 1
       }
       const body = {
@@ -111,10 +73,16 @@ const ShowCart = () => {
         updateCart(body);
       }
     } else {
-      setData(updatedData);
-      localStorage.setItem("cart", JSON.stringify(updatedData));
+      const data = {
+        _id: id,
+        quantity,
+        maxQuantity: quantityValue
+      }
+      dispatch(updateProductQuantity(data))
+     
     }
   };
+
 
   const removeProduct = (id: string) => {
     const body = {
@@ -124,101 +92,80 @@ const ShowCart = () => {
       deleteProductInCart(body)
       return
     }
-    const updatedData = cart.filter((item: any) => item._id != id)
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-
-        setData(updatedData);
-        localStorage.setItem("cart", JSON.stringify(updatedData));
-
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success"
-        });
-      }
-    });
+    dispatch(removeProductInCart(id))
   }
 
   return (
-    <div>
+    <div style={{ minHeight: "80vh" }}>
       <div className="menu-detail">
         <NavLink to="/">HOME </NavLink>
         <ArrowRightOutlined rev={undefined} />
         SHOPPING CART
       </div>
-      {isLoading ? <Loading /> :  <div className="shopping-cart">
-          {data && data.length > 0 ?
-            <>
-              <Step number={0} />
-              <table>
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data?.map((item: any, index: number) => {
-                    const price = formatPrice(item.price)
-                    const subTotalPrice = formatPrice(item.price * item.quantity)
-                    return (
-                      <tr key={item.id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <div className='img-in-cart'>
-                            <img src={item.image} alt="" />
-                            {item.name}
-                          </div>
+      {isLoading ? <Loading /> : <div className="shopping-cart">
+        {data && data.length > 0 ?
+          <>
+            <Step number={0} />
+            <table>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((item: any, index: number) => {
+                  const price = formatPrice(item.price)
+                  const subTotalPrice = formatPrice(item.price * item.quantity)
+                  return (
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <div className='img-in-cart'>
+                          <img src={item.image} alt="" />
+                          {item.name}
+                        </div>
 
-                        </td>
-                        <td>{price}</td>
-                        <td id='quantity'>
-                          <span>
-                            <HiOutlineMinus
-                              onClick={() => updateQuantity(item._id, "decrease")}
-                            />
-                          </span>
-                          <input
-                            id='update-quantity'
-                            defaultValue={item.quantity}
-                            value={item.quantity}
-                            onChange={(e: any) => updateQuantity(item._id, parseInt(e.target.value))}
+                      </td>
+                      <td>{price}</td>
+                      <td id='quantity'>
+                        <span>
+                          <HiOutlineMinus
+                            onClick={() => updateQuantity(item._id, "desc")}
                           />
-                          <span>
-                            <HiOutlinePlusSm
-                              onClick={() => updateQuantity(item._id, "increase")}
-                            />
-                          </span>
-                        </td>
-                        <td>{subTotalPrice}</td>
-                        <td id='remove-product-in-cart'><HiOutlineX onClick={() => removeProduct(item._id)} /></td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-              <div className="checkout">
-                <NavLink onClick={() => scrollToTop()} to="/checkout"><button >Checkout</button></NavLink>
-              </div>
-            </>
-            : <h3>The shopping empty!</h3>
-          }
+                        </span>
+                        <input
+                          id='update-quantity'
+                          defaultValue={item.quantity}
+                          value={item.quantity}
+                          onChange={(e: any) => updateQuantity(item._id, parseInt(e.target.value))}
+                        />
+                        <span>
+                          <HiOutlinePlusSm
+                            onClick={() => updateQuantity(item._id, "asc")}
+                          />
+                        </span>
+                      </td>
+                      <td>{subTotalPrice}</td>
+                      <td id='remove-product-in-cart'><HiOutlineX onClick={() => removeProduct(item._id)} /></td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+            <div className="checkout">
+              <NavLink onClick={() => scrollToTop()} to="/checkout"><button >Checkout</button></NavLink>
+            </div>
+          </>
+          : <h3>The shopping cart empty!</h3>
+        }
 
-        </div>
-      
+      </div>
+
       }
 
     </div>

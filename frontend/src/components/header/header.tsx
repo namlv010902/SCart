@@ -13,21 +13,22 @@ import Search from "../search/Search";
 import { FaUser, FaUserCheck } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
-import { useGetTokenQuery, useLogOutMutation } from "../../service/auth.service";
-import { useGetCartQuery } from "../../service/cart.service";
+import { useGetTokenQuery, useLogOutMutation } from "../../services/auth.service";
+import { useGetCartQuery } from "../../services/cart.service";
 import { IUser } from "../../common/user";
 import { logoUrl } from "../logo/imgUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCart } from "../../slices/cartLocal";
+
 const Header = () => {
-    let cart = JSON.parse(localStorage.getItem("cart")!)
     const { data, error } = useGetTokenQuery()
-    const [logOut, {isSuccess: logOutSuccess}] = useLogOutMutation()
+    const [logOut, { isSuccess: logOutSuccess }] = useLogOutMutation()
     const { data: cartDB, isSuccess } = useGetCartQuery()
     const navigate = useNavigate()
     const [cartData, setCartData] = useState([])
     const [user, setUser] = useState<null | IUser>()
-    const cartLocal = useSelector(state => state)
-    // console.log(cartLocal);
+    const cart = useSelector(selectCart);
+    console.log(cart);
 
     useEffect(() => {
         if (data) {
@@ -36,7 +37,7 @@ const Header = () => {
             setCartData(cart)
         }
 
-    }, [cartDB, isSuccess]);
+    }, [cartDB, isSuccess, cart]);
     useEffect(() => {
         if (error) {
             setUser(null)
@@ -48,7 +49,7 @@ const Header = () => {
     useEffect(() => {
         if (logOutSuccess) navigate("/")
     }, [logOutSuccess])
-  
+
     const menu = [
         { name: "HOME", link: "/" },
         { name: "CMS CONTENT", link: "/#" },
@@ -67,11 +68,11 @@ const Header = () => {
                     <br /> <NavLink onClick={() => logOut()} to="#"><BiLogOutCircle /> Logout</NavLink></>
                     : <NavLink onClick={() => scrollToTop()} to="/auth/login"><FaUser /> Login</NavLink>}
             </div>
-            <div className="drop-down-item">
+            {/* <div className="drop-down-item">
                 <Badge count={3}>  <NavLink to="/auth/login"><FaHeart /> WhistList</NavLink></Badge>
-            </div>
+            </div> */}
             <div className="drop-down-item">
-                <NavLink to="/orders"><FaMoneyBill1Wave /> Bill</NavLink>
+                <NavLink onClick={()=>scrollToTop()} to="/orders"><FaMoneyBill1Wave /> Orders</NavLink>
             </div>
         </div>
     )

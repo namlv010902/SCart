@@ -7,7 +7,7 @@ import Countdown from '../../../components/time'
 import Banner from '../../../components/banner/banner'
 
 import { IProduct } from '../../../common/products'
-import { useGetNewProductQuery, useGetProductSaleQuery } from '../../../service/product.service'
+import { useGetNewProductQuery, useGetProductSaleQuery } from '../../../services/product.service'
 import { Link } from 'react-router-dom'
 import { scrollToTop } from '../../../config/scrollToTop'
 import { formatPrice } from '../../../config/formatPrice'
@@ -27,7 +27,7 @@ const HomePage = () => {
 
       <div style={{ padding: "30px 180px" }}>
         <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>FLASH SALE</p><img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h1>
-       {isLoading ? <Loading /> : <div className="flash_sale">
+        {isLoading ? <Loading /> : <div className="flash_sale">
           {dataSale?.data?.docs?.map((item: IProduct) => {
             const priceCurrent = formatPrice(item.price)
             const priceSale = formatPrice(item.price - item.price * item.discount / 100)
@@ -62,8 +62,8 @@ const HomePage = () => {
 
 
 
-        </div>  }
-       
+        </div>}
+
         <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>NEW PRODUCTS</p><img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h1>
         {isLoading ? <Loading /> : <div className="products"> {data?.data?.docs?.map((item: IProduct) => (
           <Product product={item}></Product>

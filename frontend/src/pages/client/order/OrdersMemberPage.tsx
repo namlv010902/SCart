@@ -1,7 +1,7 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useFilterOrderForMemberMutation, useFindOneOrderMutation, useGetOrderForMemberQuery, useSearchInvoiceIdMutation } from '../../../service/order.service'
+import { useFilterOrderForMemberMutation, useFindOneOrderMutation, useGetOrderForMemberQuery, useSearchInvoiceIdMutation } from '../../../services/order.service'
 import { IOder } from '../../../common/order'
 import { GrView } from "react-icons/gr";
 import { formatPrice } from '../../../config/formatPrice'
@@ -17,7 +17,6 @@ const OrdersMemberPage = () => {
   const [findOrder, { data: dataFindOneOrder, isLoading: loadingFindOne }] = useFindOneOrderMutation()
   const handleFilter = (status: string) => {
     console.log(status);
-
     filter(status);
   }
   useEffect(() => {
@@ -27,7 +26,6 @@ const OrdersMemberPage = () => {
     } else {
       setOrders(data?.data?.docs)
     }
-
   }, [isSuccess, data])
   useEffect(() => {
     if (dataSearch) {
@@ -39,13 +37,11 @@ const OrdersMemberPage = () => {
     findOrder(searchValue)
   }
   console.log(dataFindOneOrder);
-
   const handleSearchI = () => {
     searchInvoiceId(searchValue);
   }
   return (
-    <div>
-
+    <div style={{minHeight:"80vh"}}>
       <div className="menu-detail">
         <NavLink to="/">HOME </NavLink>
         <ArrowRightOutlined rev={undefined} />
@@ -60,7 +56,6 @@ const OrdersMemberPage = () => {
               ))}
               <Input onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search..."></Input> <Button onClick={() => handleSearchI()} type='primary' danger>Search</Button>
             </div>
-
             {loadingFilter ? <Loading /> :
               <table>
                 <thead>
@@ -74,7 +69,6 @@ const OrdersMemberPage = () => {
                     <th></th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {orders?.map((item: IOder, index: number) => {
                     const formatTime = new Date(item.createdAt).toDateString()
@@ -96,9 +90,7 @@ const OrdersMemberPage = () => {
                     )
                   })}
                 </tbody>
-
               </table>}
-
           </> : <>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Input onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search..."></Input> <Button onClick={() => handleFindOneOrder()} type='primary' danger>Search</Button>
@@ -136,18 +128,11 @@ const OrdersMemberPage = () => {
                   )
                 })}
               </tbody>}
-
-
             </table>
           </>}
-
-
-
         </div>
       }
-
     </div>
   )
 }
-
 export default OrdersMemberPage
