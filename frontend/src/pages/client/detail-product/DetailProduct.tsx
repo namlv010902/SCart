@@ -100,8 +100,8 @@ const DetailProduct = () => {
       addToCart(dataCartDB)
       return
     }
-
     dispatch(addCart(dataCart));
+    setQuantity(1)
   };
   const handleQuantity = (value: number) => {
     console.log(value);

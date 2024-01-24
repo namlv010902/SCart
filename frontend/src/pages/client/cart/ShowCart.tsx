@@ -16,9 +16,8 @@ import { useGetOneProductMutation } from '../../../services/product.service';
 import Step from '../../../components/Steps';
 import Loading from '../../../components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeProductInCart, selectCart, updateProductQuantity } from '../../../slices/cartLocal';
+import { fetchProductById, removeProductInCart, selectCart, updateProductQuantity } from '../../../slices/cartLocal';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
 
 
 const ShowCart = () => {
@@ -29,7 +28,7 @@ const ShowCart = () => {
   const [deleteProductInCart] = useRemoveProductInCartMutation()
   const [getProduct, { data: dataOneProduct, isSuccess: getSuccess }] = useGetOneProductMutation()
   const [quantityValue, setQuantityValue] = useState(0)
-  const [dataUpdate, setDataUpdate] = useState({})
+
   const dispatch = useDispatch()
   useEffect(() => {
     if (isSuccess) {
@@ -45,18 +44,25 @@ const ShowCart = () => {
     } else {
       setData(cart);
     }
+
+  }, [isSuccess, cart, cartDb]);
+  useEffect(() => {
     if (error) {
       toast.error(error?.data?.message, {
         autoClose: 3000,
       })
-
     }
-
-  }, [ isSuccess, error, cart]);
-
-  console.log("maxQuantity: ",quantityValue);
-  const updateQuantity = async (id: string, quantity: any) => {
-    await getProduct(id)
+  }, [error]);
+  useEffect(()=>{
+    if(getSuccess && dataOneProduct){
+     setQuantityValue(dataOneProduct?.data?.quantity)
+    }
+    console.log("useEffect: ",quantityValue);
+    
+  },[getSuccess,dataOneProduct])
+  console.log("maxQuantity: ", quantityValue);
+  const updateQuantity = (id: string, quantity: any) => {
+    getProduct(id)
     if (isSuccess) {
       const productIndex = cartDb?.body?.data?.products.find((item: any) => item._id._id == id)
       if (quantity == "asc" && productIndex) {
@@ -73,13 +79,7 @@ const ShowCart = () => {
         updateCart(body);
       }
     } else {
-      const data = {
-        _id: id,
-        quantity,
-        maxQuantity: quantityValue
-      }
-      dispatch(updateProductQuantity(data))
-     
+     dispatch(fetchProductById({id, quantity}));
     }
   };
 
