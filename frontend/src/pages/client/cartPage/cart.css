@@ -22,10 +22,10 @@
     font-family: lato,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,sans-serif;
 }
 .shopping-cart>table>thead>tr>th{
-    background-color: #eaebec;
+    background-color: #04AA6D;
     padding: 0.75rem;
-    color: #212529;
-    border: 1px solid #dee2e6;
+    color: #fff;
+    border: 1px solid #04AA6D;
 }
 #quantity>span>svg{
     cursor: pointer;
@@ -73,21 +73,22 @@
     text-align: right;
 }
 .checkout>a>button {
-    color: #151515;
-    background-color: #e9da5d;
-    padding: 25px 50px;
-    border: none;
+    color: #fff;
+    background-color: #55b32c;
+    padding: 20px 40px;
     font-size: 14px;
-    border-radius: 6px;
+    border-radius: 60px;
     cursor: pointer;
     text-transform: uppercase;
+    border: 1px solid #55b32c;
+    background-image: linear-gradient(to right, #55b32c 0%, #3b9048 50%, #328a2c 50%, #04AA6D 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.3s;
 }
 
 .checkout>a>button:hover {
-    color: #FE980F;
-    background-color: #ebebe1;
-    border: 1px solid #FE980F;
-    transition: ease-in-out 0.3s;
+    background-position: -100% 0%;
+    box-shadow: 0 5px 5px #ccc;
 }
 .quantity>span{
     padding: 10px;

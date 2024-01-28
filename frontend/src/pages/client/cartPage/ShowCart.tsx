@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { NavLink } from 'react-router-dom';
-import { HiOutlineX } from "react-icons/hi";
+import { FcCancel } from "react-icons/fc";
+
 import { HiOutlineMinus, HiOutlinePlusSm } from "react-icons/hi";
 import Swal from 'sweetalert2';
 import { scrollToTop } from '../../../config/scrollToTop';
@@ -151,7 +152,7 @@ const ShowCart = () => {
                         </span>
                       </td>
                       <td>{subTotalPrice}</td>
-                      <td id='remove-product-in-cart'><HiOutlineX onClick={() => removeProduct(item._id)} /></td>
+                      <td id='remove-product-in-cart'><FcCancel onClick={() => removeProduct(item._id)} /></td>
                     </tr>
                   )
                 })}

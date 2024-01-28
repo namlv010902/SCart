@@ -73,7 +73,7 @@ const DetailOrder = () => {
       </div>
       <div className="order-details">
 
-        <h1 className="title-order">Chi tiết đơn hàng</h1>
+        <h1 className="title-order">Chi Tiết Đơn Hàng</h1>
         <div className="detailInfo">
           <div className="order-info">
             <h2>Mã đơn hàng: {data?.data?.invoiceId}</h2>

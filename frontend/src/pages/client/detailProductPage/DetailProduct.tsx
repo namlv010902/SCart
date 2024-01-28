@@ -28,7 +28,7 @@ const DetailProduct = () => {
   let cart = JSON.parse(localStorage.getItem("cart")!);
   const [dataCart, setData] = useState([]);
   const [dataRelated, setDataRelated] = useState([])
-
+  const [imgUrl, setImgUrl] = useState("")
   const menu = [
     {
       name: "HOME", link: "/"
@@ -46,7 +46,8 @@ const DetailProduct = () => {
         setDataRelated(exist)
       }
     }
-  }, [relatedProducts, id])
+    setImgUrl(data?.data?.image)
+  }, [relatedProducts, id,data])
   //get cart db
   useEffect(() => {
     if (success) {
@@ -62,7 +63,7 @@ const DetailProduct = () => {
     } else {
       setData(cart);
     }
-    console.log("running..");
+    // console.log("running..");
 
   }, [success]);
 
@@ -144,6 +145,11 @@ const DetailProduct = () => {
   };
   const price = formatPrice(data?.data?.price)
   const formatedPrice = formatPrice(data?.data?.price - data?.data?.price * data?.data?.discount / 100)
+  const imageChildren =[
+    "https://premium-html-templates.mgtechnologies.co.in/mg-organics/assets/images/products/grid-product-3.jpg",
+    "https://organature.glory-themes.com/images/product-single/pro-image.png",
+    "https://bizweb.dktcdn.net/100/431/449/themes/877121/assets/img-footer.png?1695378841384"
+]
   return (
     <div style={{minHeight:"80vh"}}>
     {isLoading ? <Loading/> :  <div>
@@ -153,7 +159,7 @@ const DetailProduct = () => {
       <div className="menu-detail">
         {menu.map((item: any) => {
           return (
-            <>
+            < >
               <Link to={item.link}>{item.name}</Link> <ArrowRightOutlined rev={undefined} />
             </>
           )
@@ -179,8 +185,17 @@ const DetailProduct = () => {
         {!error ? <article>
           <div className="detail-product">
             <div className="detail-product-img">
-              <img src={data?.data?.image} alt="" />
+              <img src={imgUrl} alt="" />
+              <div className="image-item">
+              <div className="img-child">
+              <img src={data?.data?.image} alt="" onClick={()=>setImgUrl(data?.data?.image)} /></div>
+              {imageChildren.map((item:string)=>(
+                <div className="img-child">
+                <img src={item} alt="" onClick={()=>setImgUrl(item)} /></div>
+              ))}
             </div>
+            </div>
+           
             <div className="detail-product-body">
               <h1 className="product-name">{data?.data?.name} </h1>
               <p>SKU: {data?.data?._id} </p>

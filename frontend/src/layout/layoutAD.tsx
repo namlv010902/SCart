@@ -23,16 +23,16 @@ interface IProps {
 }
 const LayOutAD = () => {
   const { data, isSuccess } = useGetTokenQuery()
-  console.log(data?.data?.role);
+  // console.log(data?.data?.role);
   const navigate = useNavigate()
   const logOut = () => {
 
   }
-  useEffect(() => {
-    if (data && data?.data?.role != "admin") {
-      navigate("/")
-    }
-  }, [data, isSuccess])
+  // useEffect(() => {
+  //   if (data && data?.data?.role != "admin") {
+  //     navigate("/")
+  //   }
+  // }, [data, isSuccess])
   const { Header, Content, Footer, Sider } = Layout;
   type MenuItem = Required<MenuProps>['items'][number];
   function getItem(

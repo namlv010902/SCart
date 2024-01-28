@@ -9,9 +9,14 @@
     width: 100%;
     top: 0;
     left: 0;
-    box-shadow: 0 .15rem 1.75rem #21283226 !important;
+    gap:20px;
+    box-shadow: 0 0 7px #ccc !important;
 }
-
+#menuActive{
+    color: #3b9048;
+    font-weight: 500;
+    transition: ease-in-out 0.3s;
+}
 .logo img {
     max-width: 120px;
     max-height: 70px;
@@ -49,6 +54,7 @@ nav ul li a::after {
     background-color: #3b9048;
     transition: ease-in-out 0.3s;
     border-radius: 4px;
+    
 }
 
 nav ul li a:hover::after {

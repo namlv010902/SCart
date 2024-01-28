@@ -1,0 +1,133 @@
+#totalPayment {
+    display: flex;
+    font-weight: 400;
+}
+
+#totalPayment p {
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.checkout-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+
+}
+
+.checkout-main {
+    padding: 30px 180px;
+}
+
+.checkout-info input {
+    height: 35px;
+    font-size: 18px;
+
+}
+
+.form-checkout {
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    padding: 30px;
+}
+
+.btn_place {
+    width: 400px;
+    height: 45px;
+    font-size: 18px;
+    border-radius: 50px;
+}
+
+.cart-checkout {
+    width: 50%;
+    box-shadow: 0 5px 5px #ccc;
+    padding: 30px !important;
+    height: max-content;
+    border-radius: 10px;
+}
+
+.cart-checkout tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.item-cart-checkout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 5px #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.cart-checkout h5 {
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 5px;
+    color: #04aa6d;
+    padding: 10px;
+
+}
+
+.free-ship {
+    display: flex;
+    color: #3b9048;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.free-ship strong {
+    display: flex;
+    color: #3b9048;
+    font-weight: 500;
+    align-items: center;
+    gap: 10px;
+}
+
+.free-ship p {
+    font-size: 70px;
+}
+
+.form-voucher {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.form-voucher input {
+    border: 2px solid #04aa6d;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.form-voucher button {
+    padding: 10px;
+    background-color: #04aa6d;
+    color: #fff;
+    border: 1px solid #04aa6d;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-all-voucher {
+    color: #3b9048;
+    cursor: pointer;
+}
+
+.voucher-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 5px #ccc;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.voucher-item strong {
+    color: #3b9048;
+}

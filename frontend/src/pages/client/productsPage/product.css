@@ -26,11 +26,13 @@
     cursor: pointer;
     text-decoration: none;
     display: block;
-
+    box-shadow: 3px 6px 0 #ccc;
     background-color: #fff;
+    margin-top: 10px;
 }
 
 .item-aside .active {
+    margin-top: 10px;
     background-color: #3b9048;
     color: #fff;
     font-weight: 400;

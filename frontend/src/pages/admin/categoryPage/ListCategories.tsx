@@ -37,7 +37,7 @@ const ListCategories = () => {
         autoClose: 3000
       })
       // alert(error?.data?.message)
-      console.log(error?.data?.message);
+      // console.log(error?.data?.message);
 
       return
     }

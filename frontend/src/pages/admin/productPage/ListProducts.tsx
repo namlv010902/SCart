@@ -23,7 +23,7 @@ const ListProducts = () => {
   const { data: DataCategories } = useGetAllCategoryQuery()
   const [form] = Form.useForm<IProduct>();
   const [upload, { isSuccess, data: dataUpload, isLoading: loadingUpload }] = useUploadMutation()
-  const [imgUrl, setImgUrl] = useState("")
+  const [imgUrl, setImgUrl] = useState([])
   const [createProduct, { isSuccess: created }] = useCreateProductMutation()
   const [remove] = useRemoveProductMutation()
   const [idPrd, setIdPrd] = useState("")
@@ -192,15 +192,22 @@ const ListProducts = () => {
   useEffect(() => {
     if (isSuccess) {
       form.setFieldValue("image", dataUpload?.data[0]?.url)
-      setImgUrl(dataUpload?.data[0]?.url)
+      setImgUrl(dataUpload?.data)
     }
   }, [isSuccess])
+  console.log("images uploaded successfully", imgUrl, dataUpload?.data);
+
   const handleUpload = (value: any) => {
     if (value.target.files) {
-      const file = value.target.files[0]
+      const files = value.target.files;
+      console.log(files, typeof (files));
       const formData = new FormData();
-      formData.append('image', file);
-      upload(formData)
+
+      for (let i = 0; i < files.length; i++) {
+        formData.append('image', files[i]);
+      }
+      upload(formData);
+ 
     }
   }
   const handelRemoveProduct = (id: string) => {
@@ -242,8 +249,17 @@ const ListProducts = () => {
             name="image"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <input type='file' onChange={e => handleUpload(e)} />
-            {loadingUpload ? <Loading /> : <img height={80} src={imgUrl} alt="" />}
+            <input type='file' multiple onChange={e => handleUpload(e)} />
+            {loadingUpload ? <Loading /> : <>
+                {imgUrl?.map((img: any) => {
+                  console.log(img?.url);
+                  return (
+                    <img height={70} src={img.url} alt="" />
+                  )
+                })}
+              </>}
+
+            
           </Form.Item>
           <Form.Item<IProduct>
             label="Price (/Kg)"
@@ -333,7 +349,7 @@ const ListProducts = () => {
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <input type='file' onChange={e => handleUpload(e)} />
-            {loadingUpload ? <Loading /> : <img height={80} src={imgUrl} alt="" />}
+
           </Form.Item>
           <Form.Item<IProduct>
             label="Price (/Kg)"

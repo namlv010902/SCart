@@ -2,32 +2,28 @@ import React from 'react'
 import { Card } from 'antd';
 import "./blog.css"
 const Blog = () => {
-    const { Meta } = Card;
+    const data = [
+        { image: "https://adoring-store-demo.myshopify.com/cdn/shop/files/ba4.jpg?v=1664870356", title: "The most useful things for you", content: "I got my first premium designer bag when I was in middle school. It was something I wished for, pined for, dreamed..." },
+        { image: "http://wpdemo.magikthemes.com/brezza/wp-content/uploads/sites/8/2016/01/blog-img1-2.jpg", title: "Latest News Are On Top All Times", content: "I got my first premium designer bag when I was in middle school. It was something I wished for, pined for, dreamed..." },
+        { image: "http://wpdemo.magikthemes.com/brezza/wp-content/uploads/sites/8/2016/01/blog-img3-2.jpg", title: "Do you really understand yourself?", content: "I got my first premium designer bag when I was in middle school. It was something I wished for, pined for, dreamed..." },
+
+    ]
     return (
         <>
-            <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>BLOGS</p></h1>
             <div className='blog'>
-                <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://demo.s-cart.org/data/content/blog-1.jpg" />}>
-                    <Meta title="Cau Vang" description="
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-                </Card>
-                <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://demo.s-cart.org/data/content/blog-1.jpg" />}>
-                    <Meta title="Cau Vang" description="
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-                </Card>
-                <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://demo.s-cart.org/data/content/blog-1.jpg" />}>
-                    <Meta title="Cau Vang" description="
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-                </Card>
+                {data.map((item: any) => (
+                    <div className="blog-item">
+                        <div className="blog-img">
+                            <img src={item.image} alt="" />
+                        </div>
+                        <div className="blog-content">
+                            <h3>{item.title}</h3>
+                            <p> {item.content}</p>
+                        </div>
+                    </div>
+                ))}
+
+
             </div>
         </>
     )

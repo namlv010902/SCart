@@ -108,8 +108,8 @@ const ProductPage = () => {
                                     <Link
                                         key={item._id}
                                         onClick={() => handleClick(item._id)}
-                                        className={`${activeItemId ? (item._id == activeItemId ? 'active' : 'noActive') : 'noActive'}`}
-                                        to="#"
+                                        className='noActive'
+                                        to={"/categories/"+item._id}
                                     >
                                         {item?.name}
                                     </Link></>

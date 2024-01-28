@@ -5,12 +5,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const images = [
+  'https://bizweb.dktcdn.net/100/361/762/themes/799709/assets/slider_1.jpg?1677439920610',
   'https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/slider_1.jpg?1689645476809',
   'https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/slider_2.jpg?1689645476809',
-  'https://bizweb.dktcdn.net/100/361/762/themes/799709/assets/slider_1.jpg?1677439920610'
+ 
 ];
 
-const showNowTexts = ['Top-notch Furniture', 'Top-notch Furniture'];
 
 const Banner = () => {
   const CustomPrevArrow = (props:any) => {

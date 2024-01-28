@@ -1,0 +1,28 @@
+.categories img{
+    height: 75px;
+    width: 75px;
+    border-radius: 50px;
+}
+.categories a{
+    text-decoration: none;
+}
+.img-cate{
+    margin-right: 15px;
+}
+.categories{
+    padding: 30px;
+}
+.item-cate{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.name-cate strong{
+    /* color: #86ba09; */
+    color: #34AD54 ;
+    font-size: 16px;
+    font-weight: 500;
+}
+.name-cate p{
+    color: #000;
+}

@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom'
 import { scrollToTop } from '../../../config/scrollToTop'
 import { formatPrice } from '../../../config/formatPrice'
 import Loading from '../../../components/Loading'
+import { HiChevronDoubleRight } from 'react-icons/hi'
+import Categories from '../../../components/categories/Categories'
 
 const HomePage = () => {
 
@@ -20,8 +22,9 @@ const HomePage = () => {
   // console.log(data?.data?.docs);
 
   return (
-    <div>
+    <div> <Categories/>
       <div style={{ overflowX: "hidden", height: "530px" }}>
+       
         <Banner></Banner>
       </div>
 
@@ -65,12 +68,25 @@ const HomePage = () => {
         </div>}
 
         <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>NEW PRODUCTS</p><img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h1>
-        {isLoading ? <Loading /> : <div className="products"> {data?.data?.docs?.map((item: IProduct) => (
+        {isLoading ? <Loading /> : <> <div className="products"> {data?.data?.docs?.map((item: IProduct) => (
           <Product product={item}></Product>
         ))}
 
-        </div>}
-
+        </div>
+          <div className="view-all">
+            <img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/bg_title_2.png?1705909732291" alt="" />
+          <br />  <Link to="/products" onClick={()=>scrollToTop()}>Xem tất cả </Link>
+          </div></>
+        }
+        
+        {/* <hr /> */}
+       <div className="banner-child">
+       <img src="http://wpdemo.magikthemes.com/brezza/wp-content/uploads/sites/8/2016/07/bottom-banner.jpg" alt="" />
+       </div>
+        <div style={{ padding: "30px 180px" }}>
+        <h1 className='title' style={{ textAlign: "center", fontWeight: "400" }}><p>OUR BLOG</p><img src="https://bizweb.dktcdn.net/100/439/653/themes/838421/assets/leaf.png?v=2?1640337155016" alt="" /></h1>
+        </div>
+        <Blog/>
       </div>
     </div>
   )

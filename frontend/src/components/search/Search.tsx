@@ -25,7 +25,7 @@ const Search = () => {
 
     useEffect(() => {
         setSearchData(dataSearch?.data?.docs)
-        console.log(dataSearch);
+        // console.log(dataSearch);
     }, [dataSearch])
 
     useEffect(() => {

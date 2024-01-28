@@ -20,7 +20,7 @@ const OrdersMemberPage = () => {
     filter(status);
   }
   useEffect(() => {
-    console.log("running");
+    // console.log("running");
     if (isSuccess) {
       setOrders(dataFilter?.data)
     } else {
@@ -36,7 +36,7 @@ const OrdersMemberPage = () => {
   const handleFindOneOrder = () => {
     findOrder(searchValue)
   }
-  console.log(dataFindOneOrder);
+  // console.log(dataFindOneOrder);
   const handleSearchI = () => {
     searchInvoiceId(searchValue);
   }

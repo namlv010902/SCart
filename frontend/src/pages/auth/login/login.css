@@ -5,16 +5,77 @@
 }
 .login{
     text-align: center;
+   
 }
 .google{
     display: flex;
     justify-content: center;
     padding: 10px 35px;
     border-radius: 5px;
-    background-color: #07bc0c;
+    /* background-color: #07bc0c; */
+    border: 1px solid #ccc;
     color: #fff;
     font-weight: 400;
     font-size: 18px;
     align-items: center;
-    width: 500px;
+    width: 400px;
+    border-radius: 50px;
+    background-color: #1877f2;
+    
+}
+.btn_login{
+    font-weight: 400;
+    font-size: 18px;
+    width: 400px;
+    background-color: #04AA6D;
+    height: 50px;
+    border-radius: 50px;
+    margin-top: 10px;
+    
+
+}
+.or hr{
+    width: 45%;
+}
+.or{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.or p{
+    margin: 0 10px;
+}
+#formLogin{
+    border: 1px solid #e3e3e3;
+    border-radius: 20px;
+    padding: 40px;
+    width: max-content;
+    margin: 0 auto;
+    box-shadow: 0 5px 5px #e3e3e3;
+    position: relative;
+}
+.item-login{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+ 
+    font-size: 15px;
+    
+}
+.item-login a{
+       color: #04aa6d;
+       font-weight: 500;
+}
+.item-login a:hover{
+    color: #3b9048;
+    text-decoration: underline;
+}
+.loading{
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    
 }

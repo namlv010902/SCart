@@ -11,6 +11,7 @@ import uploadReducer from './services/upload.service'
 import evaluationReducer from './services/evaluation.service'
 import productSlice from "./slices/product"
 import cartSlice from "./slices/cartLocal"
+import authSlice from "./slices/auth"
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     [evaluationReducer.reducerPath]: evaluationReducer.reducer,
     productSlice: productSlice,
     cartLocal: cartSlice,
+    authSlice: authSlice,
 
   },
 

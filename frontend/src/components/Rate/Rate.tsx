@@ -7,7 +7,7 @@ import { IEvaluation } from '../../common/evaluation'
 const Rating = (props: any) => {
     const { data } = props?.id ? useGetEvaluationByIdProductQuery(props.id) : { data: undefined }
     const [sum, setSum] = useState(0)
-    console.log(data?.data?.rate);
+    // console.log(data?.data?.rate);
     let avg = 0
     useEffect(() => {
         setSum(avg);
