@@ -134,7 +134,9 @@ article {
     background-color: #f9faf9;
     width: 400px;
 }
-
+.detail-product-img{
+    width: 50%;
+}
 .detail-product-body {
     margin-left: 50px;
 }
@@ -301,17 +303,16 @@ article {
     margin-left: 7px;
 }
 .image-item{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    padding: 0 20px;
     margin-top: 15px;
+    width: 100%;
 }
 .img-child{
     overflow: hidden;
 }
 .image-item img{
-    height: 80px;
-    width: 80px;
+    height: 100px;
+    width: 100px;
 }
 .image-item img:hover{
     transform: scale(1.2);

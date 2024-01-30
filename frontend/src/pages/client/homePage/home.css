@@ -1,11 +1,18 @@
 .flash_item {
     padding: 30px 0;
-    border: 1.5px solid #3b9048;
+   
     border-radius: 20px;
     display: flex;
     align-items: center;
+    /* box-shadow: 0.6em 0.6em 1.2em #e9f3e4, -0.5em -0.5em 1em #ffffff; */
+    /* box-shadow: 0  0 10px #f2f3f7; */
+    border: 1.5px solid #b6d7a8;
 }
-
+.flash_item:hover{
+    box-shadow: 0 5px 5px #e1efdc;
+    border: 1px solid #fff;
+ 
+}
 .flash_item img {
     width: 200px;
     height: 200px;
@@ -74,6 +81,8 @@
     align-items: center;
     justify-content: center;
     padding-top: 20px;
+    color: #3b9048;
+    
 }
 
 .title img {
@@ -104,4 +113,8 @@
 .view-all a:hover{
     background-color: #3b9048;
 
+}
+.flash_content  .ant-progress-bg{
+    background-color: #55b32c;
+    
 }

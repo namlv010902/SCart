@@ -13,10 +13,15 @@ const products = new mongoose.Schema({
         type: Number,
         required: true
     }
-    , image: {
-        type: String,
-        required: true
-    },
+    , images: [
+        {
+            url: {
+                type: String,
+                required: true
+            },
+            _id: false
+        }
+    ],
     discount: {
         type: Number,
         default: 0
@@ -28,11 +33,20 @@ const products = new mongoose.Schema({
     categoryId: {
         type: mongoose.Types.ObjectId,
         ref: "Category",
+        required: true
     },
     outStanding: {
         type: Boolean,
         required: true
-    }
+    },
+    isRate: [
+        {
+            rateId: {
+                type: mongoose.Types.ObjectId,
+                ref: "Evaluation",         
+            }
+        }
+    ]
 },
     { timestamps: true, versionKey: false }
 )

@@ -1,6 +1,6 @@
 import { MdDashboard } from "react-icons/md";
 import { NavLink, useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Badge } from 'antd';
 import { IoIosLock } from "react-icons/io";
 import { Popover } from 'antd';
@@ -26,14 +26,14 @@ interface IMenu {
 }
 const Header = () => {
     const { data, error } = useGetTokenQuery()
-    const [logOut, { isSuccess: logOutSuccess }] = useLogOutMutation()
-    const { data: cartDB, isSuccess } = useGetCartQuery()
     const navigate = useNavigate()
     const [cartData, setCartData] = useState([])
     const [user, setUser] = useState<null | IUser>()
     const cart = useSelector(selectCart);
-    // console.log(cart);
+    const auth = useSelector(state => state.authSlice)
     const dispatch = useDispatch()
+    const [fetch, setFetch] = useState(true)
+    const { data: cartDB, isSuccess } = useGetCartQuery(undefined, {skip:fetch })
 
     useEffect(() => {
         if (data) {
@@ -43,6 +43,27 @@ const Header = () => {
         }
 
     }, [cartDB, isSuccess, cart]);
+    useEffect(() => {
+        if (auth?.user?._id) {
+         setFetch(false)
+        }
+    }, [auth])
+    //=======================================================================//
+    const count = useMemo(() => {
+
+        if (auth?.user?._id) {
+            console.log("cart-db", cartDB?.body?.data?.products);
+
+            return cartDB?.body?.data?.products ? cartDB?.body?.data?.products?.length : 0
+        } else {
+            console.log("cart-local", cart);
+            return cart?.length
+        }
+    }, [auth, cart, cartDB])
+
+
+    ///======================================================================//
+
     useEffect(() => {
         if (error) {
             setUser(null)
@@ -82,7 +103,7 @@ const Header = () => {
         </div>
     )
     const [itemMenu, setItemMenu] = useState("")
-    console.log(itemMenu);
+    console.log(count);
 
     return (
         <>
@@ -119,7 +140,7 @@ const Header = () => {
                 </div>
                 <div className="icon-header">
                     <Search></Search>
-                    <Badge count={cartData?.length}> <NavLink onClick={() => scrollToTop()} to="/cart" style={{ color: "#151515" }}><PiHandbagSimpleLight style={{ fontSize: "30px" }} /></NavLink></Badge>
+                    <Badge count={count}> <NavLink onClick={() => scrollToTop()} to="/cart" style={{ color: "#151515" }}><PiHandbagSimpleLight style={{ fontSize: "30px" }} /></NavLink></Badge>
                 </div>
             </header>
         </>

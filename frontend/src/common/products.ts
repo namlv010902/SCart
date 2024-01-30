@@ -2,7 +2,9 @@ export interface IProduct {
     _id: string,
     name: string,
     price: number,
-    image: string,
+    images: [{
+        url:string
+    }],
     quantity: number,
     desc: string,
     outStanding: boolean,

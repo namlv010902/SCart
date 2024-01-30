@@ -24,7 +24,9 @@
     background-color: #fafafa;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 3px 5px 0 0 #ccc;
+    box-shadow: 0 5px 5px  #ccc;
+
+    /* box-shadow: 0.6em 0.6em 1.2em #ebf1e8, -0.5em -0.5em 1em #ffffff; */
 }
 .blog-content p{
     font-size: 16px;
@@ -34,5 +36,5 @@
 .blog-item:hover{
     cursor: pointer;
     transition: ease-in-out 0.3s;
-    box-shadow: 0 5px 5px  #ccc;
+    box-shadow: 3px 5px 0 0 #ccc;
 }

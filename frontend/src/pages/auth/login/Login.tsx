@@ -12,6 +12,7 @@ import { baseURL } from "../../../config/baseURL";
 import Loading from "../../../components/Loading";
 import { useDispatch } from "react-redux";
 import { saveTokenAndUser } from "../../../slices/auth";
+import { useGetCartQuery } from "../../../services/cart.service";
 interface FieldType {
   email?: string;
   password?: string;
@@ -20,6 +21,7 @@ interface FieldType {
 
 const Login = () => {
   const [login, { error, isSuccess, data, isLoading }] = useLoginMutation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,7 +51,7 @@ const Login = () => {
   return (
     <div style={{ padding: "50px 180px" }}>
       <div id="formLogin" >
-        <div className="loading" >  {isLoading && <Loading />}</div>
+        <div className="loading" >  </div>
         <div className="login"> <h1 >Log in</h1>
         </div>
         <div className="formLogin">
@@ -92,7 +94,7 @@ const Login = () => {
             </Form.Item>
             <Form.Item style={{ display: "flex", justifyContent: "center" }} >
               <Button type="primary" htmlType="submit" className="btn_login">
-                Log in
+              {isLoading ? <Loading /> : <>Log in</> }   
               </Button>
 
             </Form.Item>

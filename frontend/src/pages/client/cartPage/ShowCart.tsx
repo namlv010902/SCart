@@ -29,10 +29,11 @@ const ShowCart = () => {
   const [deleteProductInCart] = useRemoveProductInCartMutation()
   const [getProduct, { data: dataOneProduct, isSuccess: getSuccess }] = useGetOneProductMutation()
   const [quantityValue, setQuantityValue] = useState(0)
-
+  const auth = useSelector(state => state.authSlice)
   const dispatch = useDispatch()
   useEffect(() => {
-    if (isSuccess) {
+    console.log("running cart...",cart);
+    if (auth?.user?._id) {
       const products = cartDb?.body?.data?.products;
       const formatCartDb = products?.map((item: any) => ({
         _id: item?._id._id,
@@ -43,10 +44,13 @@ const ShowCart = () => {
       }));
       setData(formatCartDb);
     } else {
+      console.log("cart-settings",cart);
       setData(cart);
     }
 
-  }, [isSuccess, cart, cartDb]);
+  }, [auth, cart, cartDb]);
+
+  console.log("settings",cart);
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message, {
@@ -95,7 +99,7 @@ const ShowCart = () => {
     }
     dispatch(removeProductInCart(id))
   }
-
+  console.log("cart...",cart);
   return (
     <div style={{ minHeight: "80vh" }}>
       <div className="menu-detail">

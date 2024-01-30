@@ -113,6 +113,11 @@ const ListCategories = () => {
       key: 'name',
     },
     {
+      title: 'Image ',
+      key: "image",
+      render: (_, record) => <img height={60} src={record?.image} />,
+    },
+    {
       title: 'Products',
       dataIndex: 'products',
       key: 'products',
@@ -167,6 +172,13 @@ const ListCategories = () => {
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item<ICategory>
+            label="Category image"
+            name="name"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input type='file' />
           </Form.Item>
           <Form.Item<ICategory>
             label="Category type"

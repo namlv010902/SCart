@@ -3,9 +3,11 @@ import User from "../models/user"
 export const getProfile = async (req, res) => {
     try {
         const data = await User.findById(req.user._id)
+        const accessToken = req.cookies.accessToken
         return res.status(200).json({
             message: "Get profile successfully",
-            data
+            data,
+            accessToken
         })
     } catch (error) {
         return res.status(400).json({

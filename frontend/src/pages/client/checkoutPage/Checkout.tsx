@@ -15,18 +15,21 @@ import { formatPrice } from '../../../config/formatPrice';
 import Step from '../../../components/Steps';
 import Loading from '../../../components/Loading';
 import { useSelector } from 'react-redux';
+import { selectCart } from '../../../slices/cartLocal';
 const Checkout = () => {
     const [data, setData] = useState([]);
-    const { data: cartDb, isSuccess: getCartDb, isLoading } = useGetCartQuery();
+
+    const { data: cartDb, isSuccess: getCartDb, isLoading,refetch} = useGetCartQuery();
     const { data: dataUser, error: errorToken } = useGetTokenQuery<IUser>()
     const [createOrder, { error, isSuccess }] = useCreateOrderMutation()
     const [user, setUser] = useState<IUser | null>(null)
-    let cart = JSON.parse(localStorage.getItem("cart")!);
+    const cart = useSelector(selectCart);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [total_Payment, setTotal_Payment] = useState(0)
-    const info = useSelector(state=>state.authSlice)
-    console.log("INFO: ",info);
-    
+    const info = useSelector(state => state.authSlice)
+    const auth = useSelector(state => state.authSlice)
+    console.log("INFO: ", info);
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -43,7 +46,8 @@ const Checkout = () => {
     const [form] = Form.useForm<IUser>();
 
     useEffect(() => {
-        if (getCartDb) {
+
+        if (auth?.user?._id) {
             const products = cartDb?.body?.data?.products;
             const formatCartDb = products?.map((item: any) => ({
                 _id: item?._id._id,
@@ -54,15 +58,17 @@ const Checkout = () => {
             }));
             setData(formatCartDb);
         } else {
+            console.log("cart-settings", cart);
             setData(cart);
         }
-    }, [getCartDb]);
-
+    }, [auth, cart, cartDb]);
+    console.log("running cart...", data);
     useEffect(() => {
         if (error) {
             alert(error);
         }
         if (isSuccess) {
+            refetch()
             if (!getCartDb) {
                 localStorage.removeItem("cart")
             }
@@ -89,6 +95,7 @@ const Checkout = () => {
     // console.log(data);
     const onFinish = (values: any) => {
         values.products = data
+        
         values.totalPayment = total_Payment
         console.log('Success:', values);
         Swal.fire({
@@ -119,11 +126,11 @@ const Checkout = () => {
     const totalPayment = data?.reduce((a: number, c: any) => a + c.price * c.quantity, 0)
     const formatTOTAL = formatPrice(totalPayment)
     const handleAddVoucher = (voucher: any) => {
-         if(!info.accessToken){
+        if (!info.accessToken) {
 
             message.error("Bạn cần đăng nhập để sử dụng mã!")
             return
-         }
+        }
 
         if (total_Payment >= voucher.miniMumOrder) {
             const percent = voucher.percent

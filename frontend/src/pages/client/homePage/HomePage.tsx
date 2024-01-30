@@ -54,7 +54,7 @@ const HomePage = () => {
                       <p>Available: 999</p>
                     </div>
                   </p>
-                  <Progress strokeWidth={17} showInfo={false} percent={60} size="default" status="exception" style={{ width: "300px" }} />
+                  <Progress strokeWidth={17} showInfo={false} percent={60} size="default"  style={{ width: "300px" }} />
                   <div className="countdown_time" >
                     <Countdown />
                   </div>

@@ -195,21 +195,39 @@ const ListProducts = () => {
       setImgUrl(dataUpload?.data)
     }
   }, [isSuccess])
-  console.log("images uploaded successfully", imgUrl, dataUpload?.data);
+  // console.log("images uploaded successfully", imgUrl, dataUpload?.data);
+  const [fileList, setFileList] = useState<null | FileList[]>([])
 
-  const handleUpload = (value: any) => {
-    if (value.target.files) {
-      const files = value.target.files;
-      console.log(files, typeof (files));
+  const handleSetFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = e.target.files
       const formData = new FormData();
 
       for (let i = 0; i < files.length; i++) {
         formData.append('image', files[i]);
       }
-      upload(formData);
- 
+      console.log("formData", formData);
+      if (formData) {
+        upload(formData)
+      }
     }
+
   }
+
+  const handleUpload = () => {
+    alert("ok")
+    const formData = new FormData();
+    console.log(fileList);
+    formData.append("image", fileList)
+    // fileList?.map((item: any) => {
+    //   formData.append('image', item)
+    //   console.log("formData", formData);
+    // })
+    console.log("formData", formData);
+  }
+
+
+
   const handelRemoveProduct = (id: string) => {
     if (id && window.confirm("Xóa sản phẩm!")) {
       remove(id)
@@ -249,17 +267,17 @@ const ListProducts = () => {
             name="image"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <input type='file' multiple onChange={e => handleUpload(e)} />
+            <input type='file' multiple onChange={e => handleSetFiles(e)} />
             {loadingUpload ? <Loading /> : <>
-                {imgUrl?.map((img: any) => {
-                  console.log(img?.url);
-                  return (
-                    <img height={70} src={img.url} alt="" />
-                  )
-                })}
-              </>}
+              {imgUrl?.map((img: any) => {
+                console.log(img?.url);
+                return (
+                  <img height={70} src={img.url} alt="" />
+                )
+              })}
+            </>}
+            <p onClick={handleUpload}>Submit</p>
 
-            
           </Form.Item>
           <Form.Item<IProduct>
             label="Price (/Kg)"
